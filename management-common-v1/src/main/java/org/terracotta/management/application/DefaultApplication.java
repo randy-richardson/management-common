@@ -9,6 +9,8 @@ import java.util.Set;
 
 import javax.ws.rs.core.Application;
 
+import org.terracotta.management.resource.services.AgentsResourceServiceImpl;
+
 /**
  * A default {@link Application} subclass that adds the commonly used
  * resources and providers.
@@ -23,9 +25,10 @@ public class DefaultApplication extends Application {
   @Override
   public Set<Class<?>> getClasses() {
     return new HashSet<Class<?>>() {{
-      add(DefaultExceptionMapper.class);
-      add(ResourceRuntimeExceptionMapper.class);
-      add(WebApplicationExceptionMapper.class);
+        add(DefaultExceptionMapper.class);
+        add(ResourceRuntimeExceptionMapper.class);
+        add(WebApplicationExceptionMapper.class);
+        add(AgentsResourceServiceImpl.class);
     }};
   }
 

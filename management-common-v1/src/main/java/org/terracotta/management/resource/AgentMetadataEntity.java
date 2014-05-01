@@ -5,7 +5,7 @@
 
 package org.terracotta.management.resource;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -76,21 +76,30 @@ public class AgentMetadataEntity extends VersionedEntity {
     this.agentId = agentId;
   }
 
+  @Override
+  @JsonIgnore
+  public String getVersion() {
+    return agencyOf;
+  }
+
   /**
+   * this is kept for comptability with existing clients
+   * 
    * @return the version of the agents API
    */
-  @Override
-  @JsonProperty("restAPIVersion")
-  public String getVersion() {
+  public String getRestAPIVersion() {
     return version;
   }
   
   /**
-   * @param version of the agents API to set
+   * this is kept for comptability with existing clients
+   * 
+   * @param version
+   *          of the agents API to set
+   * 
    */
-  @Override
-  @JsonProperty("restAPIVersion")
-  public void setVersion(String version) {
+  @Deprecated
+  public void setRestAPIVersion(String version) {
     this.version = version;
   }
 

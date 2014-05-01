@@ -12,8 +12,9 @@
   <description>Core library for Terracotta management web services</description>
 
   <properties>
-    <jersey.version>1.16</jersey.version>
-    <jetty.version>8.1.12.v20130726</jetty.version>
+    <jersey.version>2.8</jersey.version>
+    <jetty.version>8.1.15.v20140411</jetty.version>
+    <slf4j.version>1.7.7</slf4j.version>
     <sag-deps>false</sag-deps>
   </properties>
 
@@ -31,7 +32,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.6.6</version>
+      <version>${slf4j.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-logging</groupId>
@@ -129,29 +130,25 @@
       </activation>
       <dependencies>
         <dependency>
-          <groupId>com.sun.jersey</groupId>
-          <artifactId>jersey-core</artifactId>
+          <groupId>org.glassfish.jersey.containers</groupId>
+          <!-- if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core" -->
+          <artifactId>jersey-container-servlet</artifactId>
           <version>${jersey.version}</version>
         </dependency>
         <dependency>
-          <groupId>com.sun.jersey</groupId>
-          <artifactId>jersey-servlet</artifactId>
+          <groupId>com.fasterxml.jackson.jaxrs</groupId>
+          <artifactId>jackson-jaxrs-json-provider</artifactId>
+          <version>2.3.3</version>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.jersey.core</groupId>
+          <artifactId>jersey-server</artifactId>
           <version>${jersey.version}</version>
         </dependency>
         <dependency>
-          <groupId>com.sun.jersey</groupId>
-          <artifactId>jersey-json</artifactId>
+          <groupId>org.glassfish.jersey.core</groupId>
+          <artifactId>jersey-client</artifactId>
           <version>${jersey.version}</version>
-          <exclusions>
-            <exclusion>
-              <groupId>stax</groupId>
-              <artifactId>stax-api</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>javax.xml.stream</groupId>
-              <artifactId>stax-api</artifactId>
-            </exclusion>
-          </exclusions>
         </dependency>
       </dependencies>
     </profile>
