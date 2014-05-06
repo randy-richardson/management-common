@@ -4,41 +4,21 @@
  */
 package org.terracotta.management.resource.exceptions;
 
+import org.terracotta.management.resource.ErrorEntity;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.InvocationTargetException;
-
-import org.terracotta.management.resource.ErrorEntity;
 
 /**
  * Misc. utility methods that work on exceptions.
  *
  * @author Ludovic Orban
  */
-public class ExceptionUtils {
-
-  /**
-   * Get the root cause of the specified throwable.
-   * @param t the throwable.
-   * @return the root cause.
-   */
-  public static Throwable getRootCause(Throwable t) {
-    Throwable last = null;
-    while (t != null && t != last) {
-      last = t;
-      t = t.getCause();
-    }
-    if (last instanceof InvocationTargetException) {
-      last = ((InvocationTargetException)last).getTargetException();
-    }
-    return last;
-  }
+public class ExceptionUtilsV1 extends ExceptionUtils {
 
   /**
    * Convert a throwable to an ErrorEntity.
-   * 
-   * @param t
-   *          the throwable.
+   * @param t the throwable.
    * @return the ErrorEntity describing the throwable.
    */
   public static ErrorEntity toErrorEntity(Throwable t) {

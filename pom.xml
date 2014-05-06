@@ -23,6 +23,7 @@
   <modules>
     <module>management-core</module>
     <module>management-common-v1</module>
+    <module>management-common-v2</module>
   </modules>
 
   <repositories>
