@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 import org.junit.After;
 import org.junit.Test;
-import org.terracotta.management.resource.AgentEntity;
+import org.terracotta.management.resource.AgentEntityV2;
 
 public class ServiceLocatorTest {
 
@@ -26,7 +26,7 @@ public class ServiceLocatorTest {
     ServiceLocator locator = new ServiceLocator();
 
     ConfigServiceImpl configServiceImpl = new ConfigServiceImpl();
-    AgentEntity agentEntity = new AgentEntity();
+    AgentEntityV2 agentEntity = new AgentEntityV2();
     locator.loadService(ConfigService.class, configServiceImpl).loadService(Serializable.class, agentEntity);
     ServiceLocator.load(locator);
 
@@ -41,7 +41,7 @@ public class ServiceLocatorTest {
     ServiceLocator locator = new ServiceLocator();
 
     ConfigServiceImpl configServiceImpl = new ConfigServiceImpl();
-    AgentEntity agentEntity = new AgentEntity();
+    AgentEntityV2 agentEntity = new AgentEntityV2();
     locator.loadService(ConfigService.class, configServiceImpl);
     //after that call it should be impossible to change the services
     ServiceLocator.load(locator);
@@ -61,7 +61,7 @@ public class ServiceLocatorTest {
   public void throwExceptionIfLoadIsCalledTwice() {
     ServiceLocator locator = new ServiceLocator();
     ConfigServiceImpl configServiceImpl = new ConfigServiceImpl();
-    AgentEntity agentEntity = new AgentEntity();
+    AgentEntityV2 agentEntity = new AgentEntityV2();
     locator.loadService(ConfigService.class, configServiceImpl).loadService(Serializable.class, agentEntity);
     ServiceLocator.load(locator);
     // badaboom !

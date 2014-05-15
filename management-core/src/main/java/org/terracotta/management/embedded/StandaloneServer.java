@@ -112,7 +112,8 @@ public final class StandaloneServer implements StandaloneServerInterface {
       // so that a list of @XmlRootElement(name = "configuration") is <configurations>
       servletHolder.setInitParameter("com.sun.jersey.config.feature.XmlRootElementProcessing", "true");
       servletHolder.setInitParameter("javax.ws.rs.Application", applicationClassName);
-      servletHolder.setInitParameter("com.sun.jersey.api.json.POJOMappingFeature", "true");
+      // not needed anymore thanks to the jackson-jaxrs-json-provider
+      // servletHolder.setInitParameter("com.sun.jersey.api.json.POJOMappingFeature", "true");
       servletHolder.setInitParameter("com.sun.jersey.spi.container.ContainerRequestFilters",
           "com.sun.jersey.api.container.filter.GZIPContentEncodingFilter");
       servletHolder.setInitParameter("com.sun.jersey.spi.container.ContainerResponseFilters",

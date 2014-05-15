@@ -5,7 +5,7 @@
 package org.terracotta.management.embedded;
 
 import org.terracotta.management.resource.ErrorEntity;
-import org.terracotta.management.resource.exceptions.ExceptionUtilsV1;
+import org.terracotta.management.resource.exceptions.ExceptionUtils;
 
 import java.io.IOException;
 
@@ -47,7 +47,7 @@ public class NoIaFilter implements Filter {
                 httpServletRequest.getHeader(TC_ID_TOKEN) != null ||
                 httpServletRequest.getHeader(ALIAS) != null) {
             httpServletResponse.setContentType("application/json");
-      ErrorEntity jsonError = ExceptionUtilsV1.toErrorEntity(new ServletException(
+      ErrorEntity jsonError = ExceptionUtils.toErrorEntity(new ServletException(
           "Request cannot contain security headers"));
             httpServletResponse.getWriter().print(jsonError.toJSON());
             httpServletResponse.setStatus(400);

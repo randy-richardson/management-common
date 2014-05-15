@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlAttribute;
  * @author brandony
  * 
  */
-public abstract class VersionedEntity implements Representable {
+public abstract class VersionedEntityV2 implements Representable {
   
   private String version;
   

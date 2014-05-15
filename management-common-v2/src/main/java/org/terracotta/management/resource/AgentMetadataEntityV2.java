@@ -10,13 +10,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * <p>
- * A {@link VersionedEntity} that represents the metadata relevant to this agent's API and state.
+ * A {@link VersionedEntityV2} that represents the metadata relevant to this agent's API and state.
  * </p>
  * 
  * @author brandony
  * 
  */
-public class AgentMetadataEntity extends VersionedEntity {
+public class AgentMetadataEntityV2 extends VersionedEntityV2 {
   
   private String version;
 
@@ -42,11 +42,11 @@ public class AgentMetadataEntity extends VersionedEntity {
 
   // TODO: Add more fields. For instance, some JVM detail and agent connection stats.
 
-  public AgentMetadataEntity() {
+  public AgentMetadataEntityV2() {
     /**/
   }
   
-  public AgentMetadataEntity(AgentMetadataEntity ame) {
+  public AgentMetadataEntityV2(AgentMetadataEntityV2 ame) {
     setAgentId(ame.getAgentId());
     setVersion(ame.getVersion());
     setAgencyOf(ame.getAgencyOf());

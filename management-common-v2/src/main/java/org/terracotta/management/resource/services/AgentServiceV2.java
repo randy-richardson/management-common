@@ -6,8 +6,8 @@
 package org.terracotta.management.resource.services;
 
 import org.terracotta.management.ServiceExecutionException;
-import org.terracotta.management.resource.AgentEntity;
-import org.terracotta.management.resource.AgentMetadataEntity;
+import org.terracotta.management.resource.AgentEntityCollectionV2;
+import org.terracotta.management.resource.AgentMetadataEntityV2;
 
 import java.util.Collection;
 import java.util.Set;
@@ -15,13 +15,13 @@ import java.util.Set;
 /**
  * @author Ludovic Orban
  */
-public interface AgentService {
+public interface AgentServiceV2 {
 
   /**
    * A locator interface for this service.
    */
   interface Locator {
-    AgentService locateAgentService();
+    AgentServiceV2 locateAgentService();
   }
 
 
@@ -31,8 +31,8 @@ public interface AgentService {
    * @return
    * @throws ServiceExecutionException
    */
-  Collection<AgentEntity> getAgents(Set<String> ids) throws ServiceExecutionException;
+  AgentEntityCollectionV2 getAgents(Set<String> ids) throws ServiceExecutionException;
 
 
-  Collection<AgentMetadataEntity> getAgentsMetadata(Set<String> ids) throws ServiceExecutionException;
+  Collection<AgentMetadataEntityV2> getAgentsMetadata(Set<String> ids) throws ServiceExecutionException;
 }

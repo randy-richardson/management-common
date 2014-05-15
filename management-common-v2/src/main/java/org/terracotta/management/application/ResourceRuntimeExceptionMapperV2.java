@@ -6,7 +6,7 @@ package org.terracotta.management.application;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.terracotta.management.resource.exceptions.ExceptionUtilsV1;
+import org.terracotta.management.resource.exceptions.ExceptionUtils;
 import org.terracotta.management.resource.exceptions.ResourceRuntimeException;
 
 import javax.ws.rs.core.MediaType;
@@ -27,7 +27,7 @@ public class ResourceRuntimeExceptionMapperV2 implements ExceptionMapper<Resourc
     LOG.debug("ResourceRuntimeExceptionMapper caught exception", exception);
     return Response.status(exception.getStatusCode())
         .type(MediaType.APPLICATION_JSON_TYPE)
-        .entity(ExceptionUtilsV1.toErrorEntity(exception)).build();
+        .entity(ExceptionUtils.toErrorEntity(exception)).build();
   }
 
 }

@@ -17,7 +17,7 @@ import java.util.Map;
  * @author brandony
  * 
  */
-public class AgentEntity extends VersionedEntity {
+public class AgentEntityV2 extends VersionedEntityV2 {
   public static final String EMBEDDED_AGENT_ID = "embedded";
 
   private String agentId;

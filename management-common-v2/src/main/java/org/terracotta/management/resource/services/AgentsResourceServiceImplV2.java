@@ -6,11 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terracotta.management.ServiceExecutionException;
 import org.terracotta.management.ServiceLocator;
-import org.terracotta.management.resource.AgentEntity;
-import org.terracotta.management.resource.AgentMetadataEntity;
+import org.terracotta.management.resource.AgentEntityCollectionV2;
+import org.terracotta.management.resource.AgentEntityV2;
+import org.terracotta.management.resource.AgentMetadataEntityV2;
 import org.terracotta.management.resource.Representable;
 import org.terracotta.management.resource.exceptions.ResourceRuntimeException;
-import org.terracotta.management.resource.services.AgentService;
+import org.terracotta.management.resource.services.AgentServiceV2;
 import org.terracotta.management.resource.services.validator.RequestValidator;
 
 import java.util.Arrays;
@@ -37,12 +38,12 @@ import javax.ws.rs.core.UriInfo;
 public final class AgentsResourceServiceImplV2 {
   private static final Logger LOG = LoggerFactory.getLogger(AgentsResourceServiceImplV2.class);
 
-  private final AgentService agentService;
+  private final AgentServiceV2 agentService;
 
   private final RequestValidator validator;
 
   public AgentsResourceServiceImplV2() {
-    this.agentService = ServiceLocator.locate(AgentService.class);
+    this.agentService = ServiceLocator.locate(AgentServiceV2.class);
     this.validator = ServiceLocator.locate(RequestValidator.class);
   }
 
@@ -53,11 +54,11 @@ public final class AgentsResourceServiceImplV2 {
    * 
    * @param info
    *          - {@link UriInfo} for this resource request
-   * @return a collection of {@link AgentEntity} objects when successful.
+   * @return a collection of {@link AgentEntityV2} objects when successful.
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public Collection<AgentEntity> getAgents(@Context UriInfo info) {
+  public AgentEntityCollectionV2 getAgents(@Context UriInfo info) {
     LOG.debug(String.format("Invoking AgentsResourceServiceImpl.getAgents: %s", info.getRequestUri()));
 
     String ids = info.getPathSegments().get(0).getMatrixParameters().getFirst("ids");
@@ -82,12 +83,12 @@ public final class AgentsResourceServiceImplV2 {
    * 
    * @param info
    *          - {@link UriInfo} for this resource request
-   * @return a collection of {@link AgentMetadataEntity} objects when successful.
+   * @return a collection of {@link AgentMetadataEntityV2} objects when successful.
    */
   @GET
   @Path("/info")
   @Produces(MediaType.APPLICATION_JSON)
-  public Collection<AgentMetadataEntity> getAgentsMetadata(@Context UriInfo info) {
+  public Collection<AgentMetadataEntityV2> getAgentsMetadata(@Context UriInfo info) {
     LOG.debug(String.format("Invoking AgentsResourceServiceImpl.getAgentsMetadata: %s", info.getRequestUri()));
 
     validator.validateSafe(info);
