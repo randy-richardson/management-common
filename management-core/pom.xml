@@ -14,7 +14,7 @@
   <description>Core library for Terracotta management web services</description>
 
   <properties>
-    <jersey.version>2.8</jersey.version>
+    <jersey.version>2.6</jersey.version>
     <jetty.version>8.1.15.v20140411</jetty.version>
     <slf4j.version>1.7.7</slf4j.version>
     <sag-deps>false</sag-deps>
