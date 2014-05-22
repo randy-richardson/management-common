@@ -18,17 +18,16 @@ import java.util.Map;
  * 
  */
 public class AgentEntityV2 extends VersionedEntityV2 {
-  public static final String EMBEDDED_AGENT_ID = "embedded";
-
   private String agentId;
 
   private String agencyOf;
 
-  private Map<String, Object> rootRepresentables = new HashMap<String, Object>();
+  private final Map<String, Object> rootRepresentables = new HashMap<String, Object>();
 
   /**
    * @return the agentId
    */
+  @Override
   public String getAgentId() {
     return agentId;
   }
@@ -36,6 +35,7 @@ public class AgentEntityV2 extends VersionedEntityV2 {
   /**
    * @param agentId to set
    */
+  @Override
   public void setAgentId(String agentId) {
     this.agentId = agentId;
   }

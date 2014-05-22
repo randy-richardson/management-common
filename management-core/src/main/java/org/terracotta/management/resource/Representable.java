@@ -16,6 +16,8 @@ import java.io.Serializable;
  * 
  */
 public interface Representable extends Serializable {
+  public static final String EMBEDDED_AGENT_ID = "embedded";
+
   /**
    * <p>
    * Get the identifier for the agent that provided this representable object.
