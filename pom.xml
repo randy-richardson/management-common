@@ -17,7 +17,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <jetty.version>8.1.12.v20130726</jetty.version>
+    <jetty.version>8.1.15.v20140411</jetty.version>
   </properties>
 
   <modules>
