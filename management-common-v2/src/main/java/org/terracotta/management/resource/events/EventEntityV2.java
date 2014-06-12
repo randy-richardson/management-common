@@ -18,7 +18,7 @@ public class EventEntityV2 extends VersionedEntityV2 {
 
   private String agentId;
   private String sourceId;
-  private String event;
+  private String type;
   private String targetNodeId;
   private String targetJmxId;
 
@@ -33,12 +33,12 @@ public class EventEntityV2 extends VersionedEntityV2 {
     this.sourceId = sourceId;
   }
 
-  public String getEvent() {
-    return event;
+  public String getType() {
+    return type;
   }
 
-  public void setEvent(String event) {
-    this.event = event;
+  public void setType(String type) {
+    this.type = type;
   }
 
   public String getTargetNodeId() {
