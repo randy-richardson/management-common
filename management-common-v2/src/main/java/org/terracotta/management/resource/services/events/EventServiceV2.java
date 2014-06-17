@@ -16,7 +16,7 @@ public interface EventServiceV2 {
     void onEvent(EventEntityV2 eventEntity);
   }
 
-  void registerEventListener(EventListener listener);
+  void registerEventListener(EventListener listener, boolean localOnly);
 
   void unregisterEventListener(EventListener listener);
 

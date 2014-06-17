@@ -16,12 +16,13 @@ import java.io.IOException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * A resource service for sending topology events.
+ * A resource service for sending events.
  * 
  * @author Ludovic Orban
  */
@@ -30,19 +31,19 @@ public class AllEventsResourceServiceImplV2 {
 
   private static final Logger LOG = LoggerFactory.getLogger(AllEventsResourceServiceImplV2.class);
 
-  private final EventServiceV2 topologyEventService;
+  private final EventServiceV2 eventService;
 
   public AllEventsResourceServiceImplV2() {
-    this.topologyEventService = ServiceLocator.locate(EventServiceV2.class);
+    this.eventService = ServiceLocator.locate(EventServiceV2.class);
   }
 
   @GET
   @Produces(SseFeature.SERVER_SENT_EVENTS)
-  public EventOutput getServerSentEvents(@Context UriInfo info) {
-    LOG.debug(String.format("Invoking TopologyEventResourceServiceImplV2.getServerSentEvents: %s", info.getRequestUri()));
+  public EventOutput getServerSentEvents(@Context UriInfo info, @QueryParam("localOnly") boolean localOnly) {
+    LOG.debug(String.format("Invoking AllEventsResourceServiceImplV2.getServerSentEvents: %s", info.getRequestUri()));
 
     final EventOutput eventOutput = new EventOutput();
-    topologyEventService.registerEventListener(new EventServiceV2.EventListener() {
+    eventService.registerEventListener(new EventServiceV2.EventListener() {
       @Override
       public void onEvent(EventEntityV2 eventEntity) {
         OutboundEvent.Builder eventBuilder = new OutboundEvent.Builder();
@@ -54,7 +55,7 @@ public class AllEventsResourceServiceImplV2 {
         try {
           eventOutput.write(event);
         } catch (IOException e) {
-          topologyEventService.unregisterEventListener(this);
+          eventService.unregisterEventListener(this);
           try {
             eventOutput.close();
           } catch (IOException ioe) {
@@ -62,7 +63,7 @@ public class AllEventsResourceServiceImplV2 {
           }
         }
       }
-    });
+    }, localOnly);
 
     return eventOutput;
   }

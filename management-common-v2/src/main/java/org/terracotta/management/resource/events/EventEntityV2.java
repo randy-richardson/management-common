@@ -9,7 +9,7 @@ import java.util.Map;
 import org.terracotta.management.resource.VersionedEntityV2;
 
 /**
- * A {@link org.terracotta.management.resource.VersionedEntityV2} representing a topology event
+ * A {@link org.terracotta.management.resource.VersionedEntityV2} representing an event
  * from the management API.
  *
  * @author Ludovic Orban
@@ -18,8 +18,11 @@ public class EventEntityV2 extends VersionedEntityV2 {
 
   private String agentId;
   private String type;
-
   private final Map<String, Object> rootRepresentables = new HashMap<String, Object>();
+
+  public EventEntityV2() {
+    setVersion("v2");
+  }
 
   public String getType() {
     return type;
