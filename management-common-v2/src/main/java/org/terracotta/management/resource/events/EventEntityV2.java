@@ -17,21 +17,9 @@ import org.terracotta.management.resource.VersionedEntityV2;
 public class EventEntityV2 extends VersionedEntityV2 {
 
   private String agentId;
-  private String sourceId;
   private String type;
-  private String targetNodeId;
-  private String targetJmxId;
 
   private final Map<String, Object> rootRepresentables = new HashMap<String, Object>();
-
-
-  public String getSourceId() {
-    return sourceId;
-  }
-
-  public void setSourceId(String sourceId) {
-    this.sourceId = sourceId;
-  }
 
   public String getType() {
     return type;
@@ -39,22 +27,6 @@ public class EventEntityV2 extends VersionedEntityV2 {
 
   public void setType(String type) {
     this.type = type;
-  }
-
-  public String getTargetNodeId() {
-    return targetNodeId;
-  }
-
-  public void setTargetNodeId(String targetNodeId) {
-    this.targetNodeId = targetNodeId;
-  }
-
-  public String getTargetJmxId() {
-    return targetJmxId;
-  }
-
-  public void setTargetJmxId(String targetJmxId) {
-    this.targetJmxId = targetJmxId;
   }
 
   @Override

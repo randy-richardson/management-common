@@ -7,7 +7,9 @@ package org.terracotta.management.application;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.glassfish.jersey.media.sse.SseFeature;
 import org.terracotta.management.resource.services.AgentsResourceServiceImplV2;
+import org.terracotta.management.resource.services.events.AllEventsResourceServiceImplV2;
 
 /**
  * A class that adds the commonly used
@@ -26,6 +28,10 @@ public class DefaultApplicationV2 {
         add(ResourceRuntimeExceptionMapperV2.class);
         add(WebApplicationExceptionMapperV2.class);
         add(AgentsResourceServiceImplV2.class);
+        add(AllEventsResourceServiceImplV2.class);
+        
+        //sse feature
+        add(SseFeature.class);
     }};
   }
 
