@@ -54,13 +54,25 @@ public class AllEventsResourceServiceImplV2 {
 
         try {
           eventOutput.write(event);
-        } catch (IOException e) {
+        } catch (Exception e) {
           eventService.unregisterEventListener(this);
           try {
             eventOutput.close();
           } catch (IOException ioe) {
             LOG.warn("Error when closing the event output.", ioe);
           }
+        }
+      }
+
+      @Override
+      public void onError(Throwable throwable) {
+        LOG.warn("Error when waiting for management events.", throwable);
+
+        eventService.unregisterEventListener(this);
+        try {
+          eventOutput.close();
+        } catch (IOException ioe) {
+          LOG.warn("Error when closing the event output.", ioe);
         }
       }
     }, localOnly);
