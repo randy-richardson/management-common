@@ -5,8 +5,6 @@
 
 package org.terracotta.management.resource;
 
-import javax.xml.bind.annotation.XmlAttribute;
-
 /**
  * <p>
  * An abstract class describing a {@link Representable} that exposes version information for use by the client.  The
@@ -18,19 +16,22 @@ import javax.xml.bind.annotation.XmlAttribute;
  * @author brandony
  * 
  */
-public abstract class VersionedEntityV2 implements Representable {
-  
-  private String version;
-  
-  /**
-   * @return version detail for associated with this entity
-   */
-  @XmlAttribute
-  public String getVersion() {
-    return version;
+public abstract class AbstractEntityV2 implements Representable {
+  public static final String VERSION_V2 = "v2";
+  private String agentId;
+
+  public AbstractEntityV2() {
+    super();
+    agentId = Representable.EMBEDDED_AGENT_ID;
   }
-  
-  public void setVersion(String version) {
-    this.version = version;
+
+  @Override
+  public String getAgentId() {
+    return agentId;
+  }
+
+  @Override
+  public void setAgentId(String agentId) {
+    this.agentId = agentId;    
   }
 }

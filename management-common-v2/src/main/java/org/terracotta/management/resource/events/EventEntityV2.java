@@ -6,23 +6,18 @@ package org.terracotta.management.resource.events;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.terracotta.management.resource.VersionedEntityV2;
+import org.terracotta.management.resource.AbstractEntityV2;
 
 /**
- * A {@link org.terracotta.management.resource.VersionedEntityV2} representing an event
+ * A {@link org.terracotta.management.resource.AbstractEntityV2} representing an event
  * from the management API.
  *
  * @author Ludovic Orban
  */
-public class EventEntityV2 extends VersionedEntityV2 {
+public class EventEntityV2 extends AbstractEntityV2 {
 
-  private String agentId;
   private String type;
   private final Map<String, Object> rootRepresentables = new HashMap<String, Object>();
-
-  public EventEntityV2() {
-    setVersion("v2");
-  }
 
   public String getType() {
     return type;
@@ -32,17 +27,11 @@ public class EventEntityV2 extends VersionedEntityV2 {
     this.type = type;
   }
 
-  @Override
-  public String getAgentId() {
-    return agentId;
-  }
-
-  @Override
-  public void setAgentId(String agentId) {
-    this.agentId = agentId;
-  }
-
   public Map<String, Object> getRootRepresentables() {
     return rootRepresentables;
+  }
+
+  public String getApiVersion() {
+    return VERSION_V2;
   }
 }

@@ -5,25 +5,21 @@
 
 package org.terracotta.management.resource;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 
 /**
  * <p>
- * A {@link VersionedEntityV2} that represents the metadata relevant to this agent's API and state.
+ * A {@link AbstractEntityV2} that represents the metadata relevant to this agent's API and state.
  * </p>
  * 
  * @author brandony
  * 
  */
-public class AgentMetadataEntityV2 extends VersionedEntityV2 {
-  
-  private String version;
+public class AgentMetadataEntityV2 extends AbstractEntityV2 {
 
-  private String agentId;
-  
+  private String productVersion;
+
   private String agencyOf;
-  
+
   private boolean available;
 
   private boolean secured;
@@ -37,7 +33,7 @@ public class AgentMetadataEntityV2 extends VersionedEntityV2 {
   private int sampleHistorySize;
 
   private int sampleIntervalSeconds;
-  
+
   private boolean enabled;
 
   // TODO: Add more fields. For instance, some JVM detail and agent connection stats.
@@ -45,10 +41,10 @@ public class AgentMetadataEntityV2 extends VersionedEntityV2 {
   public AgentMetadataEntityV2() {
     /**/
   }
-  
+
   public AgentMetadataEntityV2(AgentMetadataEntityV2 ame) {
     setAgentId(ame.getAgentId());
-    setVersion(ame.getVersion());
+    setProductVersion(ame.getProductVersion());
     setAgencyOf(ame.getAgencyOf());
     setAvailable(ame.isAvailable());
     setSecured(ame.isSecured());
@@ -59,50 +55,15 @@ public class AgentMetadataEntityV2 extends VersionedEntityV2 {
     setSampleIntervalSeconds(ame.getSampleIntervalSeconds());
     setEnabled(ame.isEnabled());
   }
-  
-  /**
-   * @see Representable#getAgentId()
-   */
-  @Override
-  public String getAgentId() {
-    return agentId;
+
+
+  public String getProductVersion() {
+    return productVersion;
   }
 
-  /**
-   * @see Representable#setAgentId(java.lang.String)
-   */
-  @Override
-  public void setAgentId(String agentId) {
-    this.agentId = agentId;
+  public void setProductVersion(String productVersion) {
+    this.productVersion = productVersion;
   }
-
-  @Override
-  @JsonIgnore
-  public String getVersion() {
-    return agencyOf;
-  }
-
-  /**
-   * this is kept for comptability with existing clients
-   * 
-   * @return the version of the agents API
-   */
-  public String getRestAPIVersion() {
-    return version;
-  }
-  
-  /**
-   * this is kept for comptability with existing clients
-   * 
-   * @param version
-   *          of the agents API to set
-   * 
-   */
-  @Deprecated
-  public void setRestAPIVersion(String version) {
-    this.version = version;
-  }
-
   /**
    * @return the monitorable entity which this agent represents
    */
@@ -116,7 +77,7 @@ public class AgentMetadataEntityV2 extends VersionedEntityV2 {
   public void setAgencyOf(String agencyOf) {
     this.agencyOf = agencyOf;
   }
-  
+
   /**
    * @return the available
    */

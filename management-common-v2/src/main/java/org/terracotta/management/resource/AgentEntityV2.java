@@ -17,28 +17,10 @@ import java.util.Map;
  * @author brandony
  * 
  */
-public class AgentEntityV2 extends VersionedEntityV2 {
-  private String agentId;
-
+public class AgentEntityV2 extends AbstractEntityV2 {
   private String agencyOf;
 
   private final Map<String, Object> rootRepresentables = new HashMap<String, Object>();
-
-  /**
-   * @return the agentId
-   */
-  @Override
-  public String getAgentId() {
-    return agentId;
-  }
-
-  /**
-   * @param agentId to set
-   */
-  @Override
-  public void setAgentId(String agentId) {
-    this.agentId = agentId;
-  }
 
   public String getAgencyOf() {
     return agencyOf;

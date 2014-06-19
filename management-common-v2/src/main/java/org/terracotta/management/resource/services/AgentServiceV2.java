@@ -6,10 +6,7 @@
 package org.terracotta.management.resource.services;
 
 import org.terracotta.management.ServiceExecutionException;
-import org.terracotta.management.resource.AgentEntityCollectionV2;
-import org.terracotta.management.resource.AgentMetadataEntityV2;
-
-import java.util.Collection;
+import org.terracotta.management.resource.ResponseEntityV2;
 import java.util.Set;
 
 /**
@@ -31,8 +28,8 @@ public interface AgentServiceV2 {
    * @return
    * @throws ServiceExecutionException
    */
-  AgentEntityCollectionV2 getAgents(Set<String> ids) throws ServiceExecutionException;
+  ResponseEntityV2 getAgents(Set<String> ids) throws ServiceExecutionException;
 
 
-  Collection<AgentMetadataEntityV2> getAgentsMetadata(Set<String> ids) throws ServiceExecutionException;
+  ResponseEntityV2 getAgentsMetadata(Set<String> ids) throws ServiceExecutionException;
 }
