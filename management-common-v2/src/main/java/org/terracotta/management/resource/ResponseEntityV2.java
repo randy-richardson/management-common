@@ -5,6 +5,7 @@ import java.util.Collection;
 
 public class ResponseEntityV2<T extends AbstractEntityV2> extends AbstractEntityV2{
 
+  private String apiVersion = VERSION_V2;
   private final Collection<T> entities = new ArrayList<T>();
   private final Collection<ExceptionEntityV2> exceptionEntities = new ArrayList<ExceptionEntityV2>();
 
@@ -16,11 +17,15 @@ public class ResponseEntityV2<T extends AbstractEntityV2> extends AbstractEntity
     return exceptionEntities;
   }
 
+  public void setApiVersion(String apiVersion) {
+    this.apiVersion = apiVersion;
+  }
+
   /**
    * @return version detail for associated with this entity
    */
   public String getApiVersion() {
-    return VERSION_V2;
+    return apiVersion;
   }
 
 
