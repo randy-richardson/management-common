@@ -3,12 +3,12 @@ package org.terracotta.management.resource;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ResponseEntityV2 extends AbstractEntityV2{
+public class ResponseEntityV2<T extends AbstractEntityV2> extends AbstractEntityV2{
 
-  private final Collection<AbstractEntityV2> entities = new ArrayList<AbstractEntityV2>();
+  private final Collection<T> entities = new ArrayList<T>();
   private final Collection<ExceptionEntityV2> exceptionEntities = new ArrayList<ExceptionEntityV2>();
 
-  public Collection<AbstractEntityV2> getEntities() {
+  public Collection<T> getEntities() {
     return entities;
   }
 
