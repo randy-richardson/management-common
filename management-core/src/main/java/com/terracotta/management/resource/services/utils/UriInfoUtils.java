@@ -66,15 +66,7 @@ public class UriInfoUtils {
 
   public static Set<String> extractLastSegmentMatrixParameterAsSet(UriInfo info, String parameterName) {
     String value = extractLastSegmentMatrixParameter(info, parameterName);
-
-    Set<String> values;
-    if (value == null) {
-      values = Collections.emptySet();
-    } else {
-      values = new HashSet<String>(Arrays.asList(value.split(",")));
-    }
-
-    return values;
+    return value == null ? null : new HashSet<String>(Arrays.asList(value.split(",")));
   }
 
 }
