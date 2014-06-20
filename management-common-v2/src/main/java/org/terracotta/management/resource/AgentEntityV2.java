@@ -19,7 +19,6 @@ import java.util.Map;
  */
 public class AgentEntityV2 extends AbstractEntityV2 {
   private String agencyOf;
-
   private final Map<String, Object> rootRepresentables = new HashMap<String, Object>();
 
   public String getAgencyOf() {

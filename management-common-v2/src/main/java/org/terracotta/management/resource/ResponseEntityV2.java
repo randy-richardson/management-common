@@ -3,7 +3,7 @@ package org.terracotta.management.resource;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ResponseEntityV2<T extends AbstractEntityV2> extends AbstractEntityV2{
+public class ResponseEntityV2<T extends AbstractEntityV2> extends AbstractEntityV2 {
 
   private String apiVersion = VERSION_V2;
   private final Collection<T> entities = new ArrayList<T>();
@@ -27,6 +27,5 @@ public class ResponseEntityV2<T extends AbstractEntityV2> extends AbstractEntity
   public String getApiVersion() {
     return apiVersion;
   }
-
 
 }

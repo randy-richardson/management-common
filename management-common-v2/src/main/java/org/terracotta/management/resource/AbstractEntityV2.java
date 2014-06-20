@@ -18,12 +18,8 @@ package org.terracotta.management.resource;
  */
 public abstract class AbstractEntityV2 implements Representable {
   public static final String VERSION_V2 = "v2";
-  private String agentId;
 
-  public AbstractEntityV2() {
-    super();
-    agentId = Representable.EMBEDDED_AGENT_ID;
-  }
+  private String agentId = Representable.EMBEDDED_AGENT_ID;
 
   @Override
   public String getAgentId() {

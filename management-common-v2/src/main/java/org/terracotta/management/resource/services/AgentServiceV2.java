@@ -6,6 +6,8 @@
 package org.terracotta.management.resource.services;
 
 import org.terracotta.management.ServiceExecutionException;
+import org.terracotta.management.resource.AgentEntityV2;
+import org.terracotta.management.resource.AgentMetadataEntityV2;
 import org.terracotta.management.resource.ResponseEntityV2;
 import java.util.Set;
 
@@ -15,21 +17,19 @@ import java.util.Set;
 public interface AgentServiceV2 {
 
   /**
-   * A locator interface for this service.
-   */
-  interface Locator {
-    AgentServiceV2 locateAgentService();
-  }
-
-
-  /**
    * Get a collection of agent entities known by this agent.
    * @param ids a set of IDs. If empty, this means all known agents.
-   * @return
+   * @return a ResponseEntityV2
    * @throws ServiceExecutionException
    */
-  ResponseEntityV2 getAgents(Set<String> ids) throws ServiceExecutionException;
+  ResponseEntityV2<AgentEntityV2> getAgents(Set<String> ids) throws ServiceExecutionException;
 
+  /**
+   * Get a collection of agent metadata entities known by this agent.
+   * @param ids a set of IDs. If empty, this means all known agents.
+   * @return a ResponseEntityV2
+   * @throws ServiceExecutionException
+   */
+  ResponseEntityV2<AgentMetadataEntityV2> getAgentsMetadata(Set<String> ids) throws ServiceExecutionException;
 
-  ResponseEntityV2 getAgentsMetadata(Set<String> ids) throws ServiceExecutionException;
 }

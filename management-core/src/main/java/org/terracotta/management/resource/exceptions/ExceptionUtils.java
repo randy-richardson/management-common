@@ -52,7 +52,7 @@ public class ExceptionUtils {
       PrintWriter pw = new PrintWriter(sw);
       t.printStackTrace(pw);
       pw.close();
-      stackTrace = sw.toString();
+      stackTrace = sw.toString().replace('\"', '\'');
     }
 
     String extraErrorMessage = "";

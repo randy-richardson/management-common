@@ -6,17 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.terracotta.management.ServiceExecutionException;
 import org.terracotta.management.ServiceLocator;
-import org.terracotta.management.resource.ResponseEntityV2;
 import org.terracotta.management.resource.AgentEntityV2;
 import org.terracotta.management.resource.AgentMetadataEntityV2;
 import org.terracotta.management.resource.Representable;
+import org.terracotta.management.resource.ResponseEntityV2;
 import org.terracotta.management.resource.exceptions.ResourceRuntimeException;
-import org.terracotta.management.resource.services.AgentServiceV2;
 import org.terracotta.management.resource.services.validator.RequestValidator;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import com.terracotta.management.resource.services.utils.UriInfoUtils;
+
 import java.util.Set;
 
 import javax.ws.rs.GET;
@@ -28,10 +26,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * An embedded implementation of {@link org.terracotta.management.resource.services.AgentsResourceService}.
- * <p/>
+ * REST facade of agents service.
  *
- * @author brandony
+ * @author Anthony Dahanne
  */
 @Path("/v2/agents")
 public final class AgentsResourceServiceImplV2 {
@@ -57,16 +54,10 @@ public final class AgentsResourceServiceImplV2 {
    */
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public ResponseEntityV2 getAgents(@Context UriInfo info) {
-    LOG.debug(String.format("Invoking AgentsResourceServiceImpl.getAgents: %s", info.getRequestUri()));
+  public ResponseEntityV2<AgentEntityV2> getAgents(@Context UriInfo info) {
+    LOG.debug(String.format("Invoking AgentsResourceServiceImplV2.getAgents: %s", info.getRequestUri()));
 
-    String ids = info.getPathSegments().get(0).getMatrixParameters().getFirst("ids");
-    Set<String> idSet;
-    if (ids == null) {
-      idSet = Collections.emptySet();
-    } else {
-      idSet = new HashSet<String>(Arrays.asList(ids.split(",")));
-    }
+    Set<String> idSet = UriInfoUtils.extractAgentIds(info);
 
     try {
       return agentService.getAgents(idSet);
@@ -87,17 +78,11 @@ public final class AgentsResourceServiceImplV2 {
   @GET
   @Path("/info")
   @Produces(MediaType.APPLICATION_JSON)
-  public ResponseEntityV2 getAgentsMetadata(@Context UriInfo info) {
-    LOG.debug(String.format("Invoking AgentsResourceServiceImpl.getAgentsMetadata: %s", info.getRequestUri()));
+  public ResponseEntityV2<AgentMetadataEntityV2> getAgentsMetadata(@Context UriInfo info) {
+    LOG.debug(String.format("Invoking AgentsResourceServiceImplV2.getAgentsMetadata: %s", info.getRequestUri()));
 
     validator.validateSafe(info);
-    String ids = info.getPathSegments().get(0).getMatrixParameters().getFirst("ids");
-    Set<String> idSet;
-    if (ids == null) {
-      idSet = Collections.emptySet();
-    } else {
-      idSet = new HashSet<String>(Arrays.asList(ids.split(",")));
-    }
+    Set<String> idSet = UriInfoUtils.extractAgentIds(info);
 
     try {
       return agentService.getAgentsMetadata(idSet);

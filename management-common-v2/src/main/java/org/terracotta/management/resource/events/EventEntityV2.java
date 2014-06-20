@@ -17,6 +17,7 @@ import org.terracotta.management.resource.AbstractEntityV2;
 public class EventEntityV2 extends AbstractEntityV2 {
 
   private String type;
+  private String apiVersion = VERSION_V2;
   private final Map<String, Object> rootRepresentables = new HashMap<String, Object>();
 
   public String getType() {
@@ -27,11 +28,16 @@ public class EventEntityV2 extends AbstractEntityV2 {
     this.type = type;
   }
 
+  public String getApiVersion() {
+    return apiVersion;
+  }
+
+  public void setApiVersion(String apiVersion) {
+    this.apiVersion = apiVersion;
+  }
+
   public Map<String, Object> getRootRepresentables() {
     return rootRepresentables;
   }
 
-  public String getApiVersion() {
-    return VERSION_V2;
-  }
 }

@@ -4,6 +4,7 @@
 package com.terracotta.management.resource.services.utils;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,5 +47,34 @@ public class UriInfoUtils {
     return result;
   }
 
+  public static Set<String> extractAgentIds(UriInfo info) {
+    String value = info.getPathSegments().get(0).getMatrixParameters().getFirst("ids");
+
+    Set<String> values;
+    if (value == null) {
+      values = Collections.emptySet();
+    } else {
+      values = new HashSet<String>(Arrays.asList(value.split(",")));
+    }
+
+    return values;
+  }
+
+  public static String extractLastSegmentMatrixParameter(UriInfo info, String parameterName) {
+    return info.getPathSegments().get(info.getPathSegments().size() - 1).getMatrixParameters().getFirst(parameterName);
+  }
+
+  public static Set<String> extractLastSegmentMatrixParameterAsSet(UriInfo info, String parameterName) {
+    String value = extractLastSegmentMatrixParameter(info, parameterName);
+
+    Set<String> values;
+    if (value == null) {
+      values = Collections.emptySet();
+    } else {
+      values = new HashSet<String>(Arrays.asList(value.split(",")));
+    }
+
+    return values;
+  }
 
 }

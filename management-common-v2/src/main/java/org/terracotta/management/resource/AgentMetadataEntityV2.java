@@ -2,7 +2,6 @@
  * All content copyright (c) 2003-2012 Terracotta, Inc., except as may otherwise be noted in a separate copyright
  * notice. All rights reserved.
  */
-
 package org.terracotta.management.resource;
 
 
@@ -36,10 +35,8 @@ public class AgentMetadataEntityV2 extends AbstractEntityV2 {
 
   private boolean enabled;
 
-  // TODO: Add more fields. For instance, some JVM detail and agent connection stats.
 
   public AgentMetadataEntityV2() {
-    /**/
   }
 
   public AgentMetadataEntityV2(AgentMetadataEntityV2 ame) {
@@ -64,6 +61,7 @@ public class AgentMetadataEntityV2 extends AbstractEntityV2 {
   public void setProductVersion(String productVersion) {
     this.productVersion = productVersion;
   }
+
   /**
    * @return the monitorable entity which this agent represents
    */
