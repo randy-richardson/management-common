@@ -1,5 +1,7 @@
 package com.terracotta.management;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -11,8 +13,6 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-
-import org.apache.commons.io.FileUtils;
 
 /**
  * @author: Anthony Dahanne
@@ -27,6 +27,7 @@ public class JerseyApplicationTestCommon {
       "com.fasterxml.jackson"                                 };
 
   private static final ClassFilter jerseyFilter                = new ClassFilter() {
+                                                                 @Override
                                                                  public boolean accept(
                                                                      Class<?> clazz) {
                                                                    return (clazz

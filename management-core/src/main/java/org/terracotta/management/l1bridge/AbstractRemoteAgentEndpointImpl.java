@@ -20,6 +20,7 @@ import java.lang.reflect.Method;
  */
 public abstract class AbstractRemoteAgentEndpointImpl implements RemoteAgentEndpoint {
 
+  @Override
   public byte[] invoke(RemoteCallDescriptor remoteCallDescriptor) throws RemoteCallException {
     String serviceName = remoteCallDescriptor.getServiceName();
     try {

@@ -4,14 +4,14 @@
  */
 package org.terracotta.management.application;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.terracotta.management.resource.exceptions.ExceptionUtils;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.terracotta.management.resource.exceptions.ExceptionUtilsV1;
 
 /**
  * @author Ludovic Orban
@@ -26,7 +26,7 @@ public class DefaultExceptionMapper implements ExceptionMapper<Throwable> {
     LOG.debug("DefaultExceptionMapper caught exception", exception);
     return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
         .type(MediaType.APPLICATION_JSON_TYPE)
-        .entity(ExceptionUtilsV1.toErrorEntity(exception)).build();
+        .entity(ExceptionUtils.toErrorEntity(exception)).build();
   }
 
 }
