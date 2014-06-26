@@ -21,14 +21,14 @@ import java.lang.reflect.Method;
 public abstract class AbstractRemoteAgentEndpointImpl implements RemoteAgentEndpoint {
 
   @Override
-  public byte[] invoke(RemoteCallDescriptor remoteCallDescriptor) throws RemoteCallException {
+  public byte[] invoke(RemoteCallDescriptor remoteCallDescriptor) throws Exception {
     String serviceName = remoteCallDescriptor.getServiceName();
     try {
       Class<?> serviceClass = Class.forName(serviceName);
 
       Object service = ServiceLocator.locate(serviceClass);
       if (service == null) {
-        throw new RemoteCallException("No such service registered in ServiceLocator: " + serviceName);
+        throw new Exception("No such service registered in ServiceLocator: " + serviceName);
       }
 
       Method method = service.getClass()
@@ -37,15 +37,15 @@ public abstract class AbstractRemoteAgentEndpointImpl implements RemoteAgentEndp
       Object returnValue = method.invoke(service, remoteCallDescriptor.getParams());
       return serialize(returnValue);
     } catch (ClassNotFoundException cnfe) {
-      throw new RemoteCallException("Service class does not exist: " + serviceName, cnfe);
+      throw new Exception("Service class does not exist: " + serviceName, cnfe);
     } catch (NoSuchMethodException nsme) {
-      throw new RemoteCallException("Service does not implement method " + fullMethodName(remoteCallDescriptor), nsme);
+      throw new Exception("Service does not implement method " + fullMethodName(remoteCallDescriptor), nsme);
     } catch (IllegalAccessException iae) {
-      throw new RemoteCallException("Error accessing method " + fullMethodName(remoteCallDescriptor), iae);
+      throw new Exception("Error accessing method " + fullMethodName(remoteCallDescriptor), iae);
     } catch (InvocationTargetException ite) {
-      throw new RemoteCallException("Error invoking remote method " + fullMethodName(remoteCallDescriptor), ite);
+      throw new Exception("Error invoking remote method " + fullMethodName(remoteCallDescriptor), ite);
     } catch (IOException ioe) {
-      throw new RemoteCallException("Error serializing return value of " + fullMethodName(remoteCallDescriptor), ioe);
+      throw new Exception("Error serializing return value of " + fullMethodName(remoteCallDescriptor), ioe);
     }
   }
 

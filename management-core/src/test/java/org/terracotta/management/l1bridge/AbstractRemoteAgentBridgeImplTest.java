@@ -23,7 +23,7 @@ public class AbstractRemoteAgentBridgeImplTest {
     ServiceLocator.unload();
   }
 
-  @Test(expected = RemoteCallException.class)
+  @Test(expected = Exception.class)
   public void given_nonexistent_service_when_invoke() throws Exception {
     AbstractRemoteAgentEndpointImpl impl = new AbstractRemoteAgentEndpointImpl() {
       @Override
@@ -39,7 +39,7 @@ public class AbstractRemoteAgentBridgeImplTest {
     impl.invoke(new RemoteCallDescriptor(null, null, null, "com.terracotta.test.NonExistentService", "methodThatDoesNotExist", new Class[0], new Object[0]));
   }
 
-  @Test(expected = RemoteCallException.class)
+  @Test(expected = Exception.class)
   public void given_nonexistent_service_method_when_invoke() throws Exception {
     ServiceLocator serviceLocator = new ServiceLocator();
     serviceLocator.loadService(CalcService.class, new CalcServiceImpl());
@@ -59,7 +59,7 @@ public class AbstractRemoteAgentBridgeImplTest {
     impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "methodThatDoesNotExist", new Class[0], new Object[0]));
   }
 
-  @Test(expected = RemoteCallException.class)
+  @Test(expected = Exception.class)
   public void given_wrong_service_method_args_when_invoke() throws Exception {
     ServiceLocator serviceLocator = new ServiceLocator();
     serviceLocator.loadService(CalcService.class, new CalcServiceImpl());
@@ -79,7 +79,7 @@ public class AbstractRemoteAgentBridgeImplTest {
     impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "add", new Class[] {String.class}, new Object[] {""}));
   }
 
-  @Test(expected = RemoteCallException.class)
+  @Test(expected = Exception.class)
   public void given_unserializable_service_method_args_when_invoke() throws Exception {
     ServiceLocator serviceLocator = new ServiceLocator();
     serviceLocator.loadService(CalcService.class, new CalcServiceImpl());
@@ -99,7 +99,7 @@ public class AbstractRemoteAgentBridgeImplTest {
     impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "print", new Class[] {Writer.class}, new Object[] {new StringWriter()}));
   }
 
-  @Test(expected = RemoteCallException.class)
+  @Test(expected = Exception.class)
   public void given_service_method_throwing_exception_when_invoke() throws Exception {
     ServiceLocator serviceLocator = new ServiceLocator();
     serviceLocator.loadService(CalcService.class, new CalcServiceImpl());

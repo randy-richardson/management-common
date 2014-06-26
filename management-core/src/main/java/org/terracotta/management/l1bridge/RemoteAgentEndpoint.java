@@ -20,7 +20,7 @@ public interface RemoteAgentEndpoint {
    * @param remoteCallDescriptor the remote call descriptor
    * @return the result of the invocation in serialized form
    */
-  byte[] invoke(RemoteCallDescriptor remoteCallDescriptor) throws RemoteCallException;
+  byte[] invoke(RemoteCallDescriptor remoteCallDescriptor) throws Exception;
 
   /**
    * Get the implementation version of the agent.
