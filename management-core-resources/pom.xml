@@ -9,16 +9,28 @@
     <version>1.3.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>management-core</artifactId>
-  <name>management-core</name>
-  <description>Core library for Terracotta management web services</description>
+  <artifactId>management-core-resources</artifactId>
+  <name>management-core-resources</name>
+  <description>Core library for Terracotta management JAX RS resources</description>
 
   <properties>
+    <jersey.version>2.6</jersey.version>
     <slf4j.version>1.7.7</slf4j.version>
     <sag-deps>false</sag-deps>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <version>${jetty.version}</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+    <dependency>
+      <groupId>org.terracotta</groupId>
+      <artifactId>management-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -45,6 +57,33 @@
       <artifactId>hamcrest-all</artifactId>
       <version>1.3</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+     <!--  <if your container implements Servlet API older than 3 use "
+        jersey-container-servlet-core " -->
+      <artifactId>jersey-container-servlet</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>2.3.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-sse</artifactId>
+      <version>${jersey.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>

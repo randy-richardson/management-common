@@ -5,7 +5,6 @@
 
 package org.terracotta.management.resource;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -74,12 +73,6 @@ public class AgentMetadataEntity extends VersionedEntity {
   @Override
   public void setAgentId(String agentId) {
     this.agentId = agentId;
-  }
-
-  @Override
-  @JsonIgnore
-  public String getVersion() {
-    return agencyOf;
   }
 
   /**
