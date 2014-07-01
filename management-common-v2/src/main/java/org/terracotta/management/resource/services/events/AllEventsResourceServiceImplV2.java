@@ -47,6 +47,7 @@ public class AllEventsResourceServiceImplV2 {
       @Override
       public void onEvent(EventEntityV2 eventEntity) {
         OutboundEvent.Builder eventBuilder = new OutboundEvent.Builder();
+        eventBuilder.reconnectDelay(100);
         eventBuilder.mediaType(MediaType.APPLICATION_JSON_TYPE);
         eventBuilder.name(EventEntityV2.class.getSimpleName());
         eventBuilder.data(EventEntityV2.class, eventEntity);

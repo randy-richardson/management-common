@@ -38,7 +38,7 @@ public interface EventServiceV2 {
   void registerEventListener(EventListener listener, boolean localOnly);
 
   /**
-   * Unregister a previsouly registered listener.
+   * Unregister a previously registered listener.
    *
    * @param listener the listener.
    */
