@@ -56,7 +56,8 @@ public class AllEventsResourceServiceImplV2 {
         try {
           eventOutput.write(event);
         } catch (Exception e) {
-          eventService.unregisterEventListener(this);
+          LOG.info("Skipping EventServiceV2.unregisterEventListener because it blows up");
+          // eventService.unregisterEventListener(this);
           try {
             eventOutput.close();
           } catch (IOException ioe) {
