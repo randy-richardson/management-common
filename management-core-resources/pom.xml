@@ -27,7 +27,8 @@
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-servlet</artifactId>
       <version>${jetty.version}</version>
-      <scope>provided</scope>
+      <!--  it's needed across the agents and the TMC -->
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.terracotta</groupId>
@@ -127,7 +128,7 @@
           <groupId>gf-40</groupId>
           <!-- <if your container implements Servlet API older than 3 use 
             " jersey-container-servlet-core " -->
-          <artifactId>gf.jersey-container-servlet-core</artifactId>
+          <artifactId>gf.jersey-container-servlet</artifactId>
           <version>${jersey.version}</version>
         </dependency>
         <dependency>
@@ -227,7 +228,7 @@
           <groupId>org.glassfish.jersey.containers</groupId>
           <!-- <if your container implements Servlet API older than 3 use 
             " jersey-container-servlet-core " -->
-          <artifactId>jersey-container-servlet-core</artifactId>
+          <artifactId>jersey-container-servlet</artifactId>
           <version>${jersey.version}</version>
         </dependency>
         <dependency>
