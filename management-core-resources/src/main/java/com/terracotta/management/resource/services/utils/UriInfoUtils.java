@@ -16,7 +16,7 @@ import javax.ws.rs.core.UriInfo;
  */
 public class UriInfoUtils {
 
-  static Set<String> PRODUCTS = new HashSet<String>() {
+  private final static Set<String> PRODUCTS = new HashSet<String>() {
                                 {
                                   add("TMS");
                                   add("WAN");
@@ -65,8 +65,14 @@ public class UriInfoUtils {
   }
 
   public static Set<String> extractLastSegmentMatrixParameterAsSet(UriInfo info, String parameterName) {
-    String value = extractLastSegmentMatrixParameter(info, parameterName);
-    return value == null ? null : new HashSet<String>(Arrays.asList(value.split(",")));
+    List<String> values = info.getPathSegments().get(info.getPathSegments().size() - 1).getMatrixParameters().get(parameterName);
+
+    Set<String> result = new HashSet<String>();
+    for (String value : values) {
+      result.addAll(Arrays.asList(value.split(",")));
+    }
+
+    return result.isEmpty() ? null : result;
   }
 
 }
