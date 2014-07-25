@@ -4,29 +4,30 @@
  */
 package org.terracotta.management.application;
 
+import org.terracotta.management.resource.services.AgentsResourceServiceImpl;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import org.terracotta.management.resource.services.AgentsResourceServiceImpl;
-
 /**
- * A class that adds the commonly used
- * resources and providers.
+ * A class that adds the commonly used resources and providers.
+ * 
  * @author Ludovic Orban
  */
-public class DefaultApplication {
+public class DefaultApplication extends DefaultApplicationCommon {
 
   /**
    * Get a default set of resource and provider classes.
    * @return a default set of classes.
    */
+  @Override
   public Set<Class<?>> getClasses() {
-    return new HashSet<Class<?>>() {{
-        add(DefaultExceptionMapper.class);
-        add(ResourceRuntimeExceptionMapper.class);
-        add(WebApplicationExceptionMapper.class);
-        add(AgentsResourceServiceImpl.class);
-    }};
+    Set<Class<?>> s = new HashSet<Class<?>>(super.getClasses());
+    s.add(DefaultExceptionMapper.class);
+    s.add(ResourceRuntimeExceptionMapper.class);
+    s.add(WebApplicationExceptionMapper.class);
+    s.add(AgentsResourceServiceImpl.class);
+    return s;
   }
-
 }
+

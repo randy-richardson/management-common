@@ -4,35 +4,37 @@
  */
 package org.terracotta.management.application;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.glassfish.jersey.media.sse.SseFeature;
 import org.terracotta.management.resource.services.AgentsResourceServiceImplV2;
 import org.terracotta.management.resource.services.events.AllEventsResourceServiceImplV2;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A class that adds the commonly used
  * resources and providers.
  * @author Ludovic Orban
  */
-public class DefaultApplicationV2 {
+public class DefaultApplicationV2 extends DefaultApplicationCommon {
 
   /**
    * Get a default set of resource and provider classes.
    * @return a default set of classes.
    */
+  @Override
   public Set<Class<?>> getClasses() {
-    return new HashSet<Class<?>>() {{
-        add(DefaultExceptionMapperV2.class);
-        add(ResourceRuntimeExceptionMapperV2.class);
-        add(WebApplicationExceptionMapperV2.class);
-        add(AgentsResourceServiceImplV2.class);
-        add(AllEventsResourceServiceImplV2.class);
-        
-        //sse feature
-        add(SseFeature.class);
-    }};
+    Set<Class<?>> s = new HashSet<Class<?>>(super.getClasses());
+    s.add(DefaultExceptionMapperV2.class);
+    s.add(ResourceRuntimeExceptionMapperV2.class);
+    s.add(WebApplicationExceptionMapperV2.class);
+    s.add(AgentsResourceServiceImplV2.class);
+    s.add(AllEventsResourceServiceImplV2.class);
+
+    // sse feature is v2 only
+    s.add(SseFeature.class);
+
+    return s;
   }
 
 }
