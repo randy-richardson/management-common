@@ -25,9 +25,6 @@ public class DefaultApplicationV2 extends DefaultApplicationCommon {
   @Override
   public Set<Class<?>> getClasses() {
     Set<Class<?>> s = new HashSet<Class<?>>(super.getClasses());
-    s.add(DefaultExceptionMapperV2.class);
-    s.add(ResourceRuntimeExceptionMapperV2.class);
-    s.add(WebApplicationExceptionMapperV2.class);
     s.add(AgentsResourceServiceImplV2.class);
     s.add(AllEventsResourceServiceImplV2.class);
 

@@ -22,19 +22,17 @@ import java.util.jar.Manifest;
  * 
  */
 public class JerseyApplicationTestCommon {
-  private static final String[]    PACKAGE_STARTS_WITH_FILTERS = new String[] { "java", "javax",
-      "org.apache", "com.sun", "org.codehaus", "org.hibernate", "org.glassfish.jersey",
-      "com.fasterxml.jackson"                                 };
+  protected static final String[] PACKAGE_STARTS_WITH_FILTERS = new String[] { "java", "javax", "org.apache", "com.sun", "org.codehaus",
+                                                                               "org.hibernate", "org.glassfish.jersey",
+                                                                               "com.fasterxml.jackson"};
 
-  private static final ClassFilter jerseyFilter                = new ClassFilter() {
-                                                                 @Override
-                                                                 public boolean accept(
-                                                                     Class<?> clazz) {
-                                                                   return (clazz
-                                                                       .isAnnotationPresent(javax.ws.rs.ext.Provider.class) || clazz
-                                                                       .isAnnotationPresent(javax.ws.rs.Path.class));
-                                                                 }
-                                                               };
+  private static final ClassFilter JERSEY_FILTER = new ClassFilter() {
+    @Override
+    public boolean accept(Class<?> clazz) {
+      return (clazz.isAnnotationPresent(javax.ws.rs.ext.Provider.class) ||
+              clazz.isAnnotationPresent(javax.ws.rs.Path.class));
+    }
+  };
 
   protected Set<Class<?>> annotatedClassesFound() throws IOException, ClassNotFoundException {
     List<String> classpathElements = getClasspathElements();
@@ -95,7 +93,7 @@ public class JerseyApplicationTestCommon {
         try {
           if (packageOfClassNotFiltered(className)) {
             Class<?> clazz = Class.forName(className);
-            if (jerseyFilter.accept(clazz)) {
+            if (JERSEY_FILTER.accept(clazz)) {
               classes.add(clazz);
             }
           }
@@ -108,7 +106,7 @@ public class JerseyApplicationTestCommon {
     return classes;
   }
 
-  private boolean packageOfClassNotFiltered(String className) {
+  private static boolean packageOfClassNotFiltered(String className) {
     for (String filter : PACKAGE_STARTS_WITH_FILTERS) {
       if (className.startsWith(filter)) {
         return false;
@@ -117,15 +115,24 @@ public class JerseyApplicationTestCommon {
     return true;
   }
 
+  protected static Set<Class<?>> filterClassesFromJaxRSPackages(Set<Class<?>> classesToFilter) {
+    Set<Class<?>> filteredClasses = new HashSet<Class<?>>();
+    for (Class<?> classTofilter : classesToFilter) {
+      if (packageOfClassNotFiltered(classTofilter.getName())) {
+        filteredClasses.add(classTofilter);
+      }
+    }
+    return filteredClasses;
+  }
+
   private void filterAnnotatedClassesFromRootPath(File file, Set<Class<?>> classes, File rootPath)
       throws ClassNotFoundException {
     if (file.isFile() && file.getAbsolutePath().endsWith(".class")) {
-      String replace = file.getAbsolutePath().replace(rootPath.getAbsolutePath() + File.separator,
-          "");
+      String replace = file.getAbsolutePath().replace(rootPath.getAbsolutePath() + File.separator, "");
       String className = replace.replace(File.separator, ".").substring(0, replace.length() - 6);
       try {
         Class<?> clazz = Class.forName(className);
-        if (jerseyFilter.accept(clazz)) {
+        if (JERSEY_FILTER.accept(clazz)) {
           classes.add(clazz);
         }
       } catch (Throwable e) {

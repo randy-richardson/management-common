@@ -25,6 +25,11 @@ public class DefaultApplicationCommon {
   public Set<Class<?>> getClasses() {
 
     return new HashSet<Class<?>>() {{
+
+        add(DefaultExceptionMapper.class);
+        add(ResourceRuntimeExceptionMapper.class);
+        add(WebApplicationExceptionMapper.class);
+
         // gzip compression
         add(GZipEncoder.class);
         add(EncodingFilter.class);
