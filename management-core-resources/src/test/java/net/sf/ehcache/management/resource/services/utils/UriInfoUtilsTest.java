@@ -17,6 +17,7 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriInfo;
 
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -55,5 +56,23 @@ public class UriInfoUtilsTest {
     params = UriInfoUtils.extractLastSegmentMatrixParameterAsSet(uriInfo, "param3");
     assertThat(params.size(), is(4));
     assertThat(params.containsAll(Arrays.asList("valueAA", "valueAB", "valueBA", "valueBB")), is(true));
+  }
+
+  @Test
+  public void testExtractLastSegmentMatrixParameterAsSetNoParam() throws Exception {
+    UriInfo uriInfo = mock(UriInfo.class);
+    PathSegment pathSegment1 = mock(PathSegment.class);
+    PathSegment lastPathSegment = mock(PathSegment.class);
+
+    List<PathSegment> pathSegments = new ArrayList<PathSegment>();
+    pathSegments.add(pathSegment1);
+    pathSegments.add(lastPathSegment);
+
+    when(uriInfo.getPathSegments()).thenReturn(pathSegments);
+    when(lastPathSegment.getMatrixParameters()).thenReturn(new MultivaluedHashMap<String, String>());
+
+
+    Set<String> params = UriInfoUtils.extractLastSegmentMatrixParameterAsSet(uriInfo, "param1");
+    assertThat(params, is(nullValue()));
   }
 }

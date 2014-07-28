@@ -68,8 +68,10 @@ public class UriInfoUtils {
     List<String> values = info.getPathSegments().get(info.getPathSegments().size() - 1).getMatrixParameters().get(parameterName);
 
     Set<String> result = new HashSet<String>();
-    for (String value : values) {
-      result.addAll(Arrays.asList(value.split(",")));
+    if (values != null) {
+      for (String value : values) {
+        result.addAll(Arrays.asList(value.split(",")));
+      }
     }
 
     return result.isEmpty() ? null : result;
