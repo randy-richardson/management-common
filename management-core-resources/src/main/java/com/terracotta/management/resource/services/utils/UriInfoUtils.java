@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -16,13 +17,7 @@ import javax.ws.rs.core.UriInfo;
  */
 public class UriInfoUtils {
 
-  private final static Set<String> PRODUCTS = new HashSet<String>() {
-                                {
-                                  add("TMS");
-                                  add("WAN");
-                                  add("USER");
-                                }
-                              };
+  private final static Set<String> PRODUCT_IDS = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList("TMS", "WAN", "USER")));
 
   public static Set<String> extractProductIds(UriInfo info) {
     List<String> ids = info.getQueryParameters().get("productIds");
@@ -35,7 +30,8 @@ public class UriInfoUtils {
       List<String> idNames = Arrays.asList(idsString.split(","));
       for (String idName : idNames) {
         if (idName.equals("*")) {
-          result.addAll(PRODUCTS);
+          result.addAll(PRODUCT_IDS);
+          continue;
         }
         try {
           result.add(idName);
@@ -48,7 +44,21 @@ public class UriInfoUtils {
   }
 
   public static Set<String> extractAgentIds(UriInfo info) {
-    String value = info.getPathSegments().get(0).getMatrixParameters().getFirst("ids");
+    PathSegment agentsPathSegment = null;
+
+    List<PathSegment> pathSegments = info.getPathSegments();
+    for (PathSegment pathSegment : pathSegments) {
+      if (pathSegment.getPath().equals("agents")) {
+        agentsPathSegment = pathSegment;
+        break;
+      }
+    }
+
+    if (agentsPathSegment == null) {
+      throw new IllegalArgumentException("path does not contain /agents segment");
+    }
+
+    String value = agentsPathSegment.getMatrixParameters().getFirst("ids");
 
     Set<String> values;
     if (value == null) {
@@ -60,6 +70,7 @@ public class UriInfoUtils {
     return values;
   }
 
+  @Deprecated
   public static String extractLastSegmentMatrixParameter(UriInfo info, String parameterName) {
     return info.getPathSegments().get(info.getPathSegments().size() - 1).getMatrixParameters().getFirst(parameterName);
   }
