@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriInfo;
 
@@ -65,20 +66,14 @@ public class UriInfoUtilsTest {
   @Test
   public void testExtractAgentIds_returnsIdsWhenPresent() throws Exception {
     UriInfo uriInfo = mock(UriInfo.class);
-    PathSegment pathSegment1 = mock(PathSegment.class);
-    PathSegment lastPathSegment = mock(PathSegment.class);
 
     List<PathSegment> pathSegments = new ArrayList<PathSegment>();
-    pathSegments.add(pathSegment1);
-    pathSegments.add(lastPathSegment);
+    pathSegments.add(pathSegment("v5000"));
+    pathSegments.add(pathSegment("agents", new MultivaluedHashMap<String, String>() {{
+      put("ids", Arrays.asList("value11,value12"));
+    }}));
 
     when(uriInfo.getPathSegments()).thenReturn(pathSegments);
-    when(pathSegment1.getPath()).thenReturn("v5000");
-    when(lastPathSegment.getPath()).thenReturn("agents");
-    when(lastPathSegment.getMatrixParameters()).thenReturn(new MultivaluedHashMap<String, String>() {{
-      put("ids", Arrays.asList("value11,value12"));
-    }});
-
 
     Set<String> strings = UriInfoUtils.extractAgentIds(uriInfo);
     assertThat(strings.size(), is(2));
@@ -88,18 +83,12 @@ public class UriInfoUtilsTest {
   @Test
   public void testExtractAgentIds_returnsEmptySetWhenNotPresent() throws Exception {
     UriInfo uriInfo = mock(UriInfo.class);
-    PathSegment pathSegment1 = mock(PathSegment.class);
-    PathSegment lastPathSegment = mock(PathSegment.class);
 
     List<PathSegment> pathSegments = new ArrayList<PathSegment>();
-    pathSegments.add(pathSegment1);
-    pathSegments.add(lastPathSegment);
+    pathSegments.add(pathSegment("v5000"));
+    pathSegments.add(pathSegment("agents"));
 
     when(uriInfo.getPathSegments()).thenReturn(pathSegments);
-    when(pathSegment1.getPath()).thenReturn("v5000");
-    when(lastPathSegment.getPath()).thenReturn("agents");
-    when(lastPathSegment.getMatrixParameters()).thenReturn(new MultivaluedHashMap<String, String>());
-
 
     Set<String> strings = UriInfoUtils.extractAgentIds(uriInfo);
     assertThat(strings.size(), is(0));
@@ -108,18 +97,12 @@ public class UriInfoUtilsTest {
   @Test
   public void testExtractAgentIds_throwsWhenNoAgentsPath() throws Exception {
     UriInfo uriInfo = mock(UriInfo.class);
-    PathSegment pathSegment1 = mock(PathSegment.class);
-    PathSegment lastPathSegment = mock(PathSegment.class);
 
     List<PathSegment> pathSegments = new ArrayList<PathSegment>();
-    pathSegments.add(pathSegment1);
-    pathSegments.add(lastPathSegment);
+    pathSegments.add(pathSegment("v5000"));
+    pathSegments.add(pathSegment("noAgents"));
 
     when(uriInfo.getPathSegments()).thenReturn(pathSegments);
-    when(pathSegment1.getPath()).thenReturn("v5000");
-    when(lastPathSegment.getPath()).thenReturn("noAgents");
-    when(lastPathSegment.getMatrixParameters()).thenReturn(new MultivaluedHashMap<String, String>());
-
 
     try {
       UriInfoUtils.extractAgentIds(uriInfo);
@@ -132,19 +115,16 @@ public class UriInfoUtilsTest {
   @Test
   public void testExtractLastSegmentMatrixParameterAsSetAllowsBothMultivalueAndCsv() throws Exception {
     UriInfo uriInfo = mock(UriInfo.class);
-    PathSegment pathSegment1 = mock(PathSegment.class);
-    PathSegment lastPathSegment = mock(PathSegment.class);
 
     List<PathSegment> pathSegments = new ArrayList<PathSegment>();
-    pathSegments.add(pathSegment1);
-    pathSegments.add(lastPathSegment);
-
-    when(uriInfo.getPathSegments()).thenReturn(pathSegments);
-    when(lastPathSegment.getMatrixParameters()).thenReturn(new MultivaluedHashMap<String, String>() {{
+    pathSegments.add(pathSegment("path1"));
+    pathSegments.add(pathSegment("path2", new MultivaluedHashMap<String, String>() {{
       put("param1", Arrays.asList("value11,value12", "value21,value22"));
       put("param2", Arrays.asList("valueAA,valueAB,valueBA,valueBB"));
       put("param3", Arrays.asList("valueAA", "valueAB", "valueBA", "valueBB"));
-    }});
+    }}));
+
+    when(uriInfo.getPathSegments()).thenReturn(pathSegments);
 
     Set<String> params = UriInfoUtils.extractLastSegmentMatrixParameterAsSet(uriInfo, "param1");
     assertThat(params.size(), is(4));
@@ -162,18 +142,81 @@ public class UriInfoUtilsTest {
   @Test
   public void testExtractLastSegmentMatrixParameterAsSetNoParam() throws Exception {
     UriInfo uriInfo = mock(UriInfo.class);
-    PathSegment pathSegment1 = mock(PathSegment.class);
-    PathSegment lastPathSegment = mock(PathSegment.class);
 
     List<PathSegment> pathSegments = new ArrayList<PathSegment>();
-    pathSegments.add(pathSegment1);
-    pathSegments.add(lastPathSegment);
+    pathSegments.add(pathSegment("path1"));
+    pathSegments.add(pathSegment("path2"));
 
     when(uriInfo.getPathSegments()).thenReturn(pathSegments);
-    when(lastPathSegment.getMatrixParameters()).thenReturn(new MultivaluedHashMap<String, String>());
-
 
     Set<String> params = UriInfoUtils.extractLastSegmentMatrixParameterAsSet(uriInfo, "param1");
     assertThat(params, is(nullValue()));
   }
+
+  @Test
+  public void testExtractSegmentMatrixParameterAsSetAllowsBothMultivalueAndCsv() throws Exception {
+    UriInfo uriInfo = mock(UriInfo.class);
+
+    List<PathSegment> pathSegments = new ArrayList<PathSegment>();
+    pathSegments.add(pathSegment("path1"));
+    pathSegments.add(pathSegment("path2", new MultivaluedHashMap<String, String>() {{
+      put("param1", Arrays.asList("value11,value12", "value21,value22"));
+      put("param2", Arrays.asList("valueAA,valueAB,valueBA,valueBB"));
+      put("param3", Arrays.asList("valueAA", "valueAB", "valueBA", "valueBB"));
+    }}));
+
+    when(uriInfo.getPathSegments()).thenReturn(pathSegments);
+
+    Set<String> params = UriInfoUtils.extractSegmentMatrixParameterAsSet(uriInfo, "path2", "param1");
+    assertThat(params.size(), is(4));
+    assertThat(params.containsAll(Arrays.asList("value11", "value12", "value21", "value22")), is(true));
+
+    params = UriInfoUtils.extractSegmentMatrixParameterAsSet(uriInfo, "path2", "param2");
+    assertThat(params.size(), is(4));
+    assertThat(params.containsAll(Arrays.asList("valueAA", "valueAB", "valueBA", "valueBB")), is(true));
+
+    params = UriInfoUtils.extractSegmentMatrixParameterAsSet(uriInfo, "path2", "param3");
+    assertThat(params.size(), is(4));
+    assertThat(params.containsAll(Arrays.asList("valueAA", "valueAB", "valueBA", "valueBB")), is(true));
+  }
+
+  @Test
+  public void testExtractSegmentMatrixParameterAsSetNoParam() throws Exception {
+    UriInfo uriInfo = mock(UriInfo.class);
+
+    List<PathSegment> pathSegments = new ArrayList<PathSegment>();
+    pathSegments.add(pathSegment("path1"));
+    pathSegments.add(pathSegment("path2"));
+
+    when(uriInfo.getPathSegments()).thenReturn(pathSegments);
+
+    Set<String> params = UriInfoUtils.extractSegmentMatrixParameterAsSet(uriInfo, "path1", "param1");
+    assertThat(params, is(nullValue()));
+  }
+
+  @Test
+  public void testExtractSegmentMatrixParameterAsSetNoPath() throws Exception {
+    UriInfo uriInfo = mock(UriInfo.class);
+
+    List<PathSegment> pathSegments = new ArrayList<PathSegment>();
+    pathSegments.add(pathSegment("path1"));
+    pathSegments.add(pathSegment("path2"));
+
+    when(uriInfo.getPathSegments()).thenReturn(pathSegments);
+
+    Set<String> params = UriInfoUtils.extractSegmentMatrixParameterAsSet(uriInfo, "path3", "param1");
+    assertThat(params, is(nullValue()));
+  }
+
+  private static PathSegment pathSegment(String path, MultivaluedMap<String, String> matrixParams) {
+    PathSegment pathSegment = mock(PathSegment.class);
+    when(pathSegment.getPath()).thenReturn(path);
+    when(pathSegment.getMatrixParameters()).thenReturn(matrixParams);
+    return pathSegment;
+  }
+
+  private static PathSegment pathSegment(String path) {
+    return pathSegment(path, new MultivaluedHashMap<String, String>());
+  }
+
 }

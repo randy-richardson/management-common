@@ -33,11 +33,7 @@ public class UriInfoUtils {
           result.addAll(PRODUCT_IDS);
           continue;
         }
-        try {
-          result.add(idName);
-        } catch (IllegalArgumentException iae) {
-          // ignore
-        }
+        result.add(idName);
       }
     }
     return result;
@@ -70,22 +66,31 @@ public class UriInfoUtils {
     return values;
   }
 
-  @Deprecated
-  public static String extractLastSegmentMatrixParameter(UriInfo info, String parameterName) {
-    return info.getPathSegments().get(info.getPathSegments().size() - 1).getMatrixParameters().getFirst(parameterName);
+  public static Set<String> extractSegmentMatrixParameterAsSet(UriInfo info, String pathName, String parameterName) {
+    List<PathSegment> pathSegments = info.getPathSegments();
+    for (PathSegment pathSegment : pathSegments) {
+      if (pathSegment.getPath().equals(pathName)) {
+        List<String> values = pathSegment.getMatrixParameters().get(parameterName);
+        return toSet(values);
+      }
+    }
+    return null;
   }
 
   public static Set<String> extractLastSegmentMatrixParameterAsSet(UriInfo info, String parameterName) {
     List<String> values = info.getPathSegments().get(info.getPathSegments().size() - 1).getMatrixParameters().get(parameterName);
+    return toSet(values);
+  }
 
-    Set<String> result = new HashSet<String>();
-    if (values != null) {
-      for (String value : values) {
-        result.addAll(Arrays.asList(value.split(",")));
-      }
+  private static Set<String> toSet(List<String> values) {
+    if (values == null) {
+      return null;
     }
-
-    return result.isEmpty() ? null : result;
+    Set<String> result = new HashSet<String>();
+    for (String value : values) {
+      result.addAll(Arrays.asList(value.split(",")));
+    }
+    return result;
   }
 
 }
