@@ -9,13 +9,17 @@
 
   <groupId>org.terracotta</groupId>
   <artifactId>management-common</artifactId>
-  <version>2.0.5-SNAPSHOT</version>
+  <version>2.0.5</version>
   <name>management-common</name>
   <description>Maven project aggregating common Terracotta management web services modules</description>
   <packaging>pom</packaging>
 
   <properties>
     <jetty.version>8.1.15.v20140411</jetty.version>
+  
+    <metadata.build.jenkins.url>http://jenkins.terracotta.eur.ad.sag:8080/job/management-common_trunk_releaser/15/</metadata.build.jenkins.url>
+    <metadata.build.maven.active.profiles>terracotta-repositories,release,tc-publish</metadata.build.maven.active.profiles>
+    <metadata.svn.revision>44455</metadata.svn.revision>
   </properties>
 
   <modules>
