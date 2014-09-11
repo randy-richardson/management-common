@@ -3,7 +3,6 @@
  */
 package org.terracotta.management.resource.services.events;
 
-import org.glassfish.jersey.media.sse.EventOutput;
 import org.glassfish.jersey.media.sse.OutboundEvent;
 import org.glassfish.jersey.media.sse.SseFeature;
 import org.slf4j.Logger;
@@ -39,10 +38,10 @@ public class AllEventsResourceServiceImplV2 {
 
   @GET
   @Produces(SseFeature.SERVER_SENT_EVENTS)
-  public EventOutput getServerSentEvents(@Context UriInfo info, @QueryParam("localOnly") boolean localOnly) {
+  public TerracottaEventOutput getServerSentEvents(@Context UriInfo info, @QueryParam("localOnly") boolean localOnly) {
     LOG.debug(String.format("Invoking AllEventsResourceServiceImplV2.getServerSentEvents: %s", info.getRequestUri()));
 
-    final EventOutput eventOutput = new EventOutput();
+    final TerracottaEventOutput eventOutput = new TerracottaEventOutput();
     eventService.registerEventListener(new EventServiceV2.EventListener() {
       @Override
       public void onEvent(EventEntityV2 eventEntity) {

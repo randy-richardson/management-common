@@ -1,16 +1,16 @@
 package org.terracotta.management.resource.services.events;
 
-import org.glassfish.jersey.media.sse.EventOutput;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.Test;
 import org.terracotta.management.ServiceLocator;
 import org.terracotta.management.resource.events.EventEntityV2;
 
-import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import javax.ws.rs.core.UriInfo;
 
 public class AllEventsResourceServiceImplV2Test {
 
@@ -27,7 +27,7 @@ public class AllEventsResourceServiceImplV2Test {
     AllEventsResourceServiceImplV2 allEventsResourceServiceImplV2 =  new AllEventsResourceServiceImplV2();
     UriInfo uriInfo =  mock(UriInfo.class);
     when(uriInfo.getRequestUri()).thenReturn(new URI(""));
-    EventOutput eventOutput = allEventsResourceServiceImplV2.getServerSentEvents(uriInfo, false);
+    TerracottaEventOutput eventOutput = allEventsResourceServiceImplV2.getServerSentEvents(uriInfo, false);
     EventServiceV2.EventListener listener = eventServiceV2.getListener();
 
     // this is the key thing here : we simulate browser closing the channel
