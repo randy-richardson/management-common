@@ -12,7 +12,6 @@
   <description>Core library for Terracotta management web services</description>
 
   <properties>
-    <slf4j.version>1.7.7</slf4j.version>
     <sag-deps>false</sag-deps>
   </properties>
 

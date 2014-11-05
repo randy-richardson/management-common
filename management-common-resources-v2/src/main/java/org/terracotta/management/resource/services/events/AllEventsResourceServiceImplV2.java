@@ -54,6 +54,13 @@ public class AllEventsResourceServiceImplV2 {
 
         try {
           eventOutput.write(event);
+          if(LOG.isDebugEnabled()) {
+            LOG.debug(String.format("Event dispatched: {AgentId: %s, Type: %s, ApiVersion: %s, Representables: %s}",
+                eventEntity.getAgentId(),
+                eventEntity.getType(),
+                eventEntity.getApiVersion(),
+                eventEntity.getRootRepresentables()));
+          }
         } catch (Exception e) {
           eventService.unregisterEventListener(this);
           try {
