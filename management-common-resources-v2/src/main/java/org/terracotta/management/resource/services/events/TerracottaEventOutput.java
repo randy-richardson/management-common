@@ -28,21 +28,24 @@ public class TerracottaEventOutput extends ChunkedOutput<OutboundEvent> {
 
   private static final Logger LOG = LoggerFactory.getLogger(TerracottaEventOutput.class);
 
-  public static final int BATCH_SIZE = 32;
-  public static final long TIMER_INTERVAL = 100L;
+  public static final int     BATCH_SIZE     = Integer.getInteger("TerracottaEventOutput.batch_size", 32);
+  public static final long    TIMER_INTERVAL = Long.getLong("TerracottaEventOutput.timer_interval", 200L);
 
-  private final Field flushingField;
-  private int counter = 0;
+  private final Timer         flushTimer;
+  private final Field         flushingField;
+  private int                 counter        = 0;
 
   public TerracottaEventOutput() {
     super("\n\n".getBytes(Charset.forName("UTF-8")));
 
-    Timer flushTimer = new Timer("sse-flush-timer", true);
+    flushTimer = new Timer("sse-flush-timer", true);
     flushTimer.schedule(new TimerTask() {
       @Override
       public void run() {
         try {
-          flush();
+          if (!isClosed()) {
+            flush();
+          }
         } catch (IOException ioe) {
           LOG.warn("Error flushing SSE from timer", ioe);
         }
@@ -85,4 +88,9 @@ public class TerracottaEventOutput extends ChunkedOutput<OutboundEvent> {
     super.write(null);
   }
 
+  @Override
+  public void close() throws IOException {
+    flushTimer.cancel();
+    super.close();
+  }
 }
