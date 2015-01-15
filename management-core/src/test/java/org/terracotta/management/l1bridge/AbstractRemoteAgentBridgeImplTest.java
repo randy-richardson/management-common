@@ -36,7 +36,7 @@ public class AbstractRemoteAgentBridgeImplTest {
       }
     };
 
-    impl.invoke(new RemoteCallDescriptor(null, null, null, "com.terracotta.test.NonExistentService", "methodThatDoesNotExist", new Class[0], new Object[0]));
+    impl.invoke(new RemoteCallDescriptor(null, null, null, "com.terracotta.test.NonExistentService", "methodThatDoesNotExist", new Class[0], new Object[0],null));
   }
 
   @Test(expected = Exception.class)
@@ -56,7 +56,7 @@ public class AbstractRemoteAgentBridgeImplTest {
       }
     };
 
-    impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "methodThatDoesNotExist", new Class[0], new Object[0]));
+    impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "methodThatDoesNotExist", new Class[0], new Object[0],null));
   }
 
   @Test(expected = Exception.class)
@@ -76,7 +76,7 @@ public class AbstractRemoteAgentBridgeImplTest {
       }
     };
 
-    impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "add", new Class[] {String.class}, new Object[] {""}));
+    impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "add", new Class[] {String.class}, new Object[] {""},null));
   }
 
   @Test(expected = Exception.class)
@@ -96,7 +96,7 @@ public class AbstractRemoteAgentBridgeImplTest {
       }
     };
 
-    impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "print", new Class[] {Writer.class}, new Object[] {new StringWriter()}));
+    impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "print", new Class[] {Writer.class}, new Object[] {new StringWriter()},null));
   }
 
   @Test(expected = Exception.class)
@@ -116,7 +116,7 @@ public class AbstractRemoteAgentBridgeImplTest {
       }
     };
 
-    impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "brokenMethod", new Class[0], new Object[0]));
+    impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "brokenMethod", new Class[0], new Object[0],null));
   }
 
   @Test
@@ -136,7 +136,7 @@ public class AbstractRemoteAgentBridgeImplTest {
       }
     };
 
-    byte[] response = impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "add", new Class[] { int.class, int.class }, new Object[] { 5, 10 }));
+    byte[] response = impl.invoke(new RemoteCallDescriptor(null, null, null, CalcService.class.getName(), "add", new Class[] { int.class, int.class }, new Object[] { 5, 10 },null));
     Assert.assertThat((Integer)deserialize(response), equalTo(15));
   }
 
