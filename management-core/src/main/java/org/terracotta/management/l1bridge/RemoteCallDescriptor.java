@@ -5,7 +5,6 @@
 package org.terracotta.management.l1bridge;
 
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  * The L1 bridge remote call descriptor contains everything that is necessary to describe a remote service call.
@@ -14,7 +13,6 @@ import java.util.Set;
  */
 public class RemoteCallDescriptor implements Serializable {
 
-  private static final long serialVersionUID = 7481150306025461580L;
   private final String ticket;
   private final String token;
   private final String iaCallbackUrl;
@@ -22,20 +20,19 @@ public class RemoteCallDescriptor implements Serializable {
   private final String methodName;
   private final Class[] paramClasses;
   private final Object[] params;
-  private final Set<String> clientUUIDs;
 
   /**
+   * Create instance.
    *
-   * @param ticket
-   * @param token
-   * @param iaCallbackUrl
-   * @param serviceName
-   * @param methodName
-   * @param paramClasses
-   * @param params
-   * @param clientUUIDs
+   * @param ticket the security ticket, can be null if there is no security context to pass on.
+   * @param token the security token, can be null if there is no security context to pass on.
+   * @param iaCallbackUrl the security IA callback URL, can be null if there is no security context to pass on.
+   * @param serviceName the service name on which to perform the invocation.
+   * @param methodName the name of the method to invoke.
+   * @param paramClasses the method parameter types.
+   * @param params the method parameters.
    */
-  public RemoteCallDescriptor(String ticket, String token, String iaCallbackUrl, String serviceName, String methodName, Class[] paramClasses, Object[] params,Set<String> clientUUIDs) {
+  public RemoteCallDescriptor(String ticket, String token, String iaCallbackUrl, String serviceName, String methodName, Class[] paramClasses, Object[] params) {
     this.ticket = ticket;
     this.token = token;
     this.iaCallbackUrl = iaCallbackUrl;
@@ -43,7 +40,6 @@ public class RemoteCallDescriptor implements Serializable {
     this.methodName = methodName;
     this.paramClasses = paramClasses;
     this.params = params;
-    this.clientUUIDs = clientUUIDs;
   }
 
   public String getTicket() {
@@ -72,9 +68,5 @@ public class RemoteCallDescriptor implements Serializable {
 
   public Object[] getParams() {
     return params;
-  }
-
-  public Set<String> getClientUUIDs() {
-    return clientUUIDs;
   }
 }
