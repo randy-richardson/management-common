@@ -46,8 +46,8 @@ public class TerracottaEventOutput extends ChunkedOutput<OutboundEvent> {
           if (!isClosed()) {
             flush();
           }
-        } catch (IOException ioe) {
-          LOG.warn("Error flushing SSE from timer", ioe);
+        } catch (Exception e) {
+          LOG.warn("Error flushing SSE from timer", e);
         }
       }
     }, TIMER_INTERVAL, TIMER_INTERVAL);
