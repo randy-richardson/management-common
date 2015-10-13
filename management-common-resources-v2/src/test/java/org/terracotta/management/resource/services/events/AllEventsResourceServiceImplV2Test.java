@@ -90,7 +90,7 @@ public class AllEventsResourceServiceImplV2Test {
     mockEvent.setAgentId(mockAgentId);
     listener.onEvent(mockEvent);
 
-    String event = logEventsList.get(1).getMessage().toString();
+    String event = logEventsList.get(logEventsList.size() - 1).getMessage().toString();
     assertTrue(event.contains("Event dispatched"));
     assertTrue(event.contains(mockVersion));
     assertTrue(event.contains(mockType));
