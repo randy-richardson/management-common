@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.terracotta</groupId>
     <artifactId>management-common</artifactId>
-    <version>2.0.13-SNAPSHOT</version>
+    <version>2.0.13</version>
   </parent>
 
   <artifactId>management-core</artifactId>
@@ -13,6 +13,10 @@
 
   <properties>
     <sag-deps>false</sag-deps>
+  
+    <metadata.build.jenkins.url>http://jenkins.terracotta.eur.ad.sag:8080/job/management-common_trunk_releaser/36/</metadata.build.jenkins.url>
+    <metadata.build.maven.active.profiles>terracotta-repositories,release,tc-publish</metadata.build.maven.active.profiles>
+    <metadata.svn.revision/>
   </properties>
 
   <dependencies>
