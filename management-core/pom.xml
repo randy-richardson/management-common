@@ -11,10 +11,6 @@
   <name>management-core</name>
   <description>Core library for Terracotta management web services</description>
 
-  <properties>
-    <sag-deps>false</sag-deps>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -66,30 +62,6 @@
      </plugin>
     </plugins>
   </build>
-
-  <!-- profiles> <profile> <id>sag-deps</id> <activation> <property> <name>sag-deps</name> 
-    <value>true</value> </property> </activation> <dependencies> <dependency> 
-    <groupId>gf-3122</groupId> <artifactId>gf.jersey-core</artifactId> <version>${jersey.version}</version> 
-    </dependency> <dependency> <groupId>gf-3122</groupId> <artifactId>gf.jersey-gf-servlet</artifactId> 
-    <version>${jersey.version}</version> </dependency> <dependency> <groupId>gf-3122</groupId> 
-    <artifactId>gf.jersey-gf-server</artifactId> <version>${jersey.version}</version> 
-    </dependency> <dependency> <groupId>gf-3122</groupId> <artifactId>gf.asm</artifactId> 
-    <version>3.1.0</version> </dependency> <dependency> <groupId>gf-3122</groupId> 
-    <artifactId>gf.jersey-json</artifactId> <version>${jersey.version}</version> 
-    <exclusions> <exclusion> <groupId>stax</groupId> <artifactId>stax-api</artifactId> 
-    </exclusion> <exclusion> <groupId>javax.xml.stream</groupId> <artifactId>stax-api</artifactId> 
-    </exclusion> </exclusions> </dependency> <dependency> <groupId>gf-3122</groupId> 
-    <artifactId>gf.jackson-core-asl</artifactId> <version>1.9.2</version> </dependency> 
-    <dependency> <groupId>gf-3122</groupId> <artifactId>gf.jackson-mapper-asl</artifactId> 
-    <version>1.9.2</version> </dependency> <dependency> <groupId>gf-3122</groupId> 
-    <artifactId>gf.jackson-jaxrs</artifactId> <version>1.9.2</version> </dependency> 
-    <dependency> <groupId>org.codehaus.jackson</groupId> <artifactId>jackson-xc</artifactId> 
-    <version>1.9.2</version> <exclusions> <exclusion> <groupId>org.codehaus.jackson</groupId> 
-    <artifactId>jackson-core-asl</artifactId> </exclusion> <exclusion> <groupId>org.codehaus.jackson</groupId> 
-    <artifactId>jackson-mapper-asl</artifactId> </exclusion> </exclusions> </dependency> 
-    </dependencies> </profile> <profile> <id>community-deps</id> <activation> 
-    <property> <name>sag-deps</name> <value>false</value> </property> <activeByDefault>true</activeByDefault> 
-    </activation> </profile> </profiles -->
 
   <repositories>
     <repository>
