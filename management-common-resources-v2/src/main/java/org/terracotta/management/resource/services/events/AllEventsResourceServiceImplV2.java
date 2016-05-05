@@ -55,12 +55,13 @@ public class AllEventsResourceServiceImplV2 {
 
   private final EventServiceV2 eventService;
   private final Broadcaster broadcaster;
+  // TAB-6785 : it's as if @Singleton had no effects, so making sure here to instantiate only 1 timer
+  private static final Timer flushTimer = new Timer("sse-flush-timer", true);
 
   public AllEventsResourceServiceImplV2() {
     this.eventService = ServiceLocator.locate(EventServiceV2.class);
     this.broadcaster = new Broadcaster();
-
-    Timer flushTimer = new Timer("sse-flush-timer", true);
+    LOG.debug("sse-flush-timer being used : " + flushTimer);
     flushTimer.schedule(new TimerTask() {
       @Override
       public void run() {
