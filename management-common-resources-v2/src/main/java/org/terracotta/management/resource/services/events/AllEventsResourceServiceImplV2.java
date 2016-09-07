@@ -157,7 +157,7 @@ public class AllEventsResourceServiceImplV2 {
   public class EventServiceListener extends TerracottaEventOutput implements EventServiceV2.EventListener {
     @Override
     public synchronized void write(OutboundEvent chunk) throws IOException {
-      if (isClosed()) { return; }
+      if (isClosed()) { throw new IOException("closed"); }
 
       TerracottaEventOutputFlushingMetadata metadata = broadcaster.outputs.get(this);
       metadata.accumulatedIdleTime.set(0L);
