@@ -1,4 +1,3 @@
-#Tue Jan 15 00:35:00 GMT+05:30 2013
 eclipse.preferences.version=1
 org.eclipse.jdt.core.codeComplete.argumentPrefixes=
 org.eclipse.jdt.core.codeComplete.argumentSuffixes=
@@ -173,7 +172,6 @@ org.eclipse.jdt.core.formatter.indent_statements_compare_to_body=true
 org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_cases=true
 org.eclipse.jdt.core.formatter.indent_switchstatements_compare_to_switch=true
 org.eclipse.jdt.core.formatter.indentation.size=2
-org.eclipse.jdt.core.formatter.insert_new_line_after_annotation=insert
 org.eclipse.jdt.core.formatter.insert_new_line_after_annotation_on_field=insert
 org.eclipse.jdt.core.formatter.insert_new_line_after_annotation_on_local_variable=insert
 org.eclipse.jdt.core.formatter.insert_new_line_after_annotation_on_method=insert
