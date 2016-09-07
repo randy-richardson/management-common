@@ -12,6 +12,14 @@ import org.slf4j.LoggerFactory;
 import org.terracotta.management.ServiceLocator;
 import org.terracotta.management.resource.events.EventEntityV2;
 
+import java.io.IOException;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,13 +28,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
-import java.io.IOException;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * A resource service for sending events.
@@ -50,18 +51,24 @@ public class AllEventsResourceServiceImplV2 {
   private static final Logger LOG = LoggerFactory.getLogger(AllEventsResourceServiceImplV2.class);
 
   public static final int  BATCH_SIZE     = Integer.getInteger("TerracottaEventOutput.batch_size", 32);
-  public static final long TIMER_INTERVAL = Long.getLong("TerracottaEventOutput.timer_interval", 200L);
-  public static final long MAX_IDLE_KEEPALIVE = Long.getLong("TerracottaEventOutput.max_idle_keepalive", 15000L);
+  public static final long     TIMER_INTERVAL     = Long.getLong("TerracottaEventOutput.timer_interval", 917L);
+
+  // Making the reaper timer interval a non-round number of seconds to reduce the probability that a race condition
+  // occurs causing multiple events to fire
+  public static final long     MAX_IDLE_KEEPALIVE = Long.getLong("TerracottaEventOutput.max_idle_keepalive", 57917L);
 
   private final EventServiceV2 eventService;
+
+  // This broadcaster is only used for book keeping purposes.
   private final Broadcaster broadcaster;
+
   // TAB-6785 : it's as if @Singleton had no effects, so making sure here to instantiate only 1 timer
   private static final Timer flushTimer = new Timer("sse-flush-timer", true);
 
   public AllEventsResourceServiceImplV2() {
     this.eventService = ServiceLocator.locate(EventServiceV2.class);
     this.broadcaster = new Broadcaster();
-    LOG.debug("sse-flush-timer being used : " + flushTimer);
+    LOG.debug("sse-flush-timer being used: {}", flushTimer);
     flushTimer.schedule(new TimerTask() {
       @Override
       public void run() {
@@ -69,16 +76,12 @@ public class AllEventsResourceServiceImplV2 {
         for (Map.Entry<TerracottaEventOutput, TerracottaEventOutputFlushingMetadata> entry : broadcaster.outputs.entrySet()) {
           TerracottaEventOutput output = entry.getKey();
           TerracottaEventOutputFlushingMetadata metadata = entry.getValue();
-
-          if (metadata.accumulatedIdleTime.addAndGet(TIMER_INTERVAL) >= MAX_IDLE_KEEPALIVE) {
-            LOG.debug("A SSE event output has been idle for too long, closing it");
-            broadcaster.close(output);
-            continue;
-          }
+          long idleTime = metadata.accumulatedIdleTime.addAndGet(TIMER_INTERVAL);
 
           int unflushedCount = metadata.unflushedCount.get();
           if (unflushedCount > 0) {
-            LOG.debug("A SSE event output accumulated {} unflushed events during max interval, flushing it", unflushedCount);
+            LOG.debug("A SSE event output accumulated {} unflushed events during max interval, flushing it",
+                      unflushedCount);
             try {
               output.flush();
             } catch (Exception e) {
@@ -87,6 +90,10 @@ public class AllEventsResourceServiceImplV2 {
             } finally {
               metadata.unflushedCount.addAndGet(-unflushedCount);
             }
+            continue;
+          } else if (idleTime >= MAX_IDLE_KEEPALIVE) {
+            LOG.info("A SSE event output has been idle for too long {}, closing it", idleTime);
+            broadcaster.close(output);
             continue;
           }
 
@@ -100,7 +107,8 @@ public class AllEventsResourceServiceImplV2 {
   @GET
   @Produces(SseFeature.SERVER_SENT_EVENTS)
   public TerracottaEventOutput getServerSentEvents(@Context UriInfo info, @QueryParam("localOnly") boolean localOnly) {
-    LOG.debug(String.format("Invoking AllEventsResourceServiceImplV2.getServerSentEvents: %s", info.getRequestUri()));
+    LOG.info("Invoking AllEventsResourceServiceImplV2.getServerSentEvents: info={}, localOnly={}", info.getRequestUri(),
+             localOnly);
 
     EventServiceListener eventOutput = new EventServiceListener();
 
@@ -129,7 +137,7 @@ public class AllEventsResourceServiceImplV2 {
 
     @Override
     public void onClose(final ChunkedOutput<OutboundEvent> chunkedOutput) {
-      outputs.remove((TerracottaEventOutput) chunkedOutput);
+      outputs.remove(chunkedOutput);
       eventService.unregisterEventListener((EventServiceListener) chunkedOutput);
     }
 
@@ -147,9 +155,10 @@ public class AllEventsResourceServiceImplV2 {
 
 
   public class EventServiceListener extends TerracottaEventOutput implements EventServiceV2.EventListener {
-
     @Override
     public synchronized void write(OutboundEvent chunk) throws IOException {
+      if (isClosed()) { return; }
+
       TerracottaEventOutputFlushingMetadata metadata = broadcaster.outputs.get(this);
       metadata.accumulatedIdleTime.set(0L);
       int unflushedCount = metadata.unflushedCount.incrementAndGet();
@@ -176,7 +185,11 @@ public class AllEventsResourceServiceImplV2 {
       eventBuilder.data(EventEntityV2.class, eventEntity);
       OutboundEvent event = eventBuilder.build();
 
-      AllEventsResourceServiceImplV2.this.broadcaster.broadcast(event);
+      try {
+        write(event);
+      } catch (IOException ioe) {
+        onError(ioe);
+      }
 
       if (LOG.isDebugEnabled()) {
         LOG.debug(String.format("Event dispatched: {AgentId: %s, Type: %s, ApiVersion: %s, Representables: %s}",
