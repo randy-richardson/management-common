@@ -92,7 +92,7 @@ public class AllEventsResourceServiceImplV2 {
             }
             continue;
           } else if (idleTime >= MAX_IDLE_KEEPALIVE) {
-            LOG.info("A SSE event output has been idle for too long {}, closing it", idleTime);
+            LOG.debug("A SSE event output has been idle for too long {}, closing it", idleTime);
             broadcaster.close(output);
             continue;
           }
