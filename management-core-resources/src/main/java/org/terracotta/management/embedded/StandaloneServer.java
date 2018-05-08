@@ -11,9 +11,12 @@ import javax.servlet.DispatcherType;
 import javax.servlet.ServletContextListener;
 
 import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.nio.SelectChannelConnector;
-import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -85,17 +88,39 @@ public final class StandaloneServer implements StandaloneServerInterface {
     }
 
     try {
-      server = new Server(port);
-
-      SelectChannelConnector connector;
-
+      // Create a basic jetty server object without declaring the port.  Since we are configuring connectors
+      // directly we'll be setting ports on those connectors.
+      Server server = new Server();
+      // HttpConfiguration is a collection of configuration information appropriate for http and https. The default
+      // scheme for http is <code>http</code> of course, as the default for secured http is <code>https</code> but
+      // we show setting the scheme to show it can be done.  The port for secured communication is also set here.
+      HttpConfiguration httpConfig = new HttpConfiguration();
+      httpConfig.setSecureScheme("https");
+      httpConfig.setSecurePort(port);
+      ServerConnector connector;
       if (sslCtxt != null) {
-        SslContextFactory sslCtxtFact = new SslContextFactory();
-        sslCtxtFact.setSslContext(sslCtxt);
-        sslCtxtFact.setNeedClientAuth(needClientAuth);
-        connector = new SslSelectChannelConnector(sslCtxtFact);
+        // A new HttpConfiguration object is needed for the next connector and you can pass the old one as an
+        // argument to effectively clone the contents. On this HttpConfiguration object we add a
+        // SecureRequestCustomizer which is how a new connector is able to resolve the https connection before
+        // handing control over to the Jetty Server.
+        HttpConfiguration httpsConfig = new HttpConfiguration(httpConfig);
+        httpsConfig.addCustomizer(new SecureRequestCustomizer());
+
+        SslContextFactory sslContextFactory = new SslContextFactory();
+        sslContextFactory.setSslContext(sslCtxt);
+        sslContextFactory.setNeedClientAuth(needClientAuth);
+        // HTTPS connector
+        // We create a second ServerConnector, passing in the http configuration we just made along with the
+        // previously created ssl context factory. Next we set the port and a longer idle timeout.
+        connector = new ServerConnector(server,
+            new SslConnectionFactory(sslContextFactory, "http/1.1"),
+            new HttpConnectionFactory(httpsConfig));
       } else {
-        connector = new SelectChannelConnector();
+        // HTTP connector
+        // The first server connector we create is the one for http, passing in the http configuration we configured
+        // above so it can get things like the output buffer size, etc. We also set the port (8080) and configure an
+        // idle timeout.
+        connector = new ServerConnector(server, new HttpConnectionFactory(httpConfig));
       }
 
       connector.setHost(host);

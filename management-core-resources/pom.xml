@@ -116,9 +116,9 @@
       <version>1.0.1</version>
     </dependency>
     <dependency>
-      <groupId>gf-3122</groupId>
+      <groupId>gf-40</groupId>
       <artifactId>gf.javax.servlet-api</artifactId>
-      <version>3.0.1</version>
+      <version>3.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
@@ -128,8 +128,8 @@
       <scope>compile</scope>
       <exclusions>
         <exclusion>
-          <groupId>org.eclipse.jetty.orbit</groupId>
-          <artifactId>javax.servlet</artifactId>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet.api</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
