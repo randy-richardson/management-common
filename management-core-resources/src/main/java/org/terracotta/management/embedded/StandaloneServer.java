@@ -90,7 +90,7 @@ public final class StandaloneServer implements StandaloneServerInterface {
     try {
       // Create a basic jetty server object without declaring the port.  Since we are configuring connectors
       // directly we'll be setting ports on those connectors.
-      Server server = new Server();
+      server = new Server();
       // HttpConfiguration is a collection of configuration information appropriate for http and https. The default
       // scheme for http is <code>http</code> of course, as the default for secured http is <code>https</code> but
       // we show setting the scheme to show it can be done.  The port for secured communication is also set here.
