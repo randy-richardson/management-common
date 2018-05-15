@@ -129,7 +129,7 @@
       <exclusions>
         <exclusion>
           <groupId>javax.servlet</groupId>
-          <artifactId>javax.servlet.api</artifactId>
+          <artifactId>javax.servlet-api</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
