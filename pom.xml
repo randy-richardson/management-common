@@ -17,6 +17,7 @@
   <properties>
     <jetty.version>8.1.15.v20140411</jetty.version>
     <slf4j.version>1.7.25</slf4j.version>
+    <java.build.version>1.6</java.build.version>
   
     <metadata.build.jenkins.url>http://jenkins.terracotta.eur.ad.sag:8080/job/management-common_trunk_releaser/63/</metadata.build.jenkins.url>
     <metadata.build.maven.active.profiles>terracotta-repositories,release,tc-publish,fullmode</metadata.build.maven.active.profiles>
@@ -41,6 +42,11 @@
           <configuration>
             <doclint>none</doclint>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.6.1</version><!--to compile with JDK 1.6 -->
         </plugin>
       </plugins>
     </pluginManagement>
