@@ -85,14 +85,14 @@ public class AllEventsResourceServiceImplV2 {
             try {
               output.flush();
             } catch (Exception e) {
-              LOG.warn("Error flushing SSE from timer, closing event output", e);
+              LOG.debug("Error flushing SSE from timer, closing event output", e);
               broadcaster.close(output);
             } finally {
               metadata.unflushedCount.addAndGet(-unflushedCount);
             }
             continue;
           } else if (idleTime >= MAX_IDLE_KEEPALIVE) {
-            LOG.info("A SSE event output has been idle for too long {}, closing it", idleTime);
+            LOG.debug("A SSE event output has been idle for too long {}, closing it", idleTime);
             broadcaster.close(output);
             continue;
           }
@@ -145,7 +145,7 @@ public class AllEventsResourceServiceImplV2 {
       try {
         chunkedOutput.close();
       } catch (Exception e) {
-        LOG.warn("Error closing SSE event output from timer", e);
+        LOG.debug("Error closing SSE event output from timer", e);
       } finally {
         onClose(chunkedOutput);
         remove(chunkedOutput);
@@ -204,7 +204,7 @@ public class AllEventsResourceServiceImplV2 {
       try {
         broadcaster.close(this);
       } catch (Exception e) {
-        LOG.warn("Error closing SSE event output", e);
+        LOG.debug("Error closing SSE event output", e);
       }
     }
   }
