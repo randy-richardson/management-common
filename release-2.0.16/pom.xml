@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.terracotta.forge</groupId>
+    <artifactId>forge-parent</artifactId>
+    <version>3.20</version>
+  </parent>
+
+  <groupId>org.terracotta</groupId>
+  <artifactId>management-common</artifactId>
+  <version>2.0.16</version>
+  <name>management-common</name>
+  <description>Maven project aggregating common Terracotta management web services modules</description>
+  <packaging>pom</packaging>
+
+  <properties>
+    <jetty.version>8.1.15.v20140411</jetty.version>
+    <slf4j.version>1.7.7</slf4j.version>
+  
+    <metadata.build.jenkins.url>http://jenkins.terracotta.eur.ad.sag:8080/job/management-common_trunk_releaser/44/</metadata.build.jenkins.url>
+    <metadata.build.maven.active.profiles>terracotta-repositories,release,tc-publish,fullmode</metadata.build.maven.active.profiles>
+    <metadata.svn.revision/>
+  </properties>
+
+  <modules>
+    <module>management-core</module>
+    <module>management-core-resources</module>
+    <module>management-common-v1</module>
+    <module>management-common-resources-v1</module>
+    <module>management-common-v2</module>
+    <module>management-common-resources-v2</module>
+  </modules>
+
+  <repositories>
+    <repository>
+      <id>terracotta-snapshots</id>
+      <url>http://www.terracotta.org/download/reflector/snapshots</url>
+    </repository>
+    <repository>
+      <id>terracotta-releases</id>
+      <url>http://www.terracotta.org/download/reflector/releases</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>terracotta-snapshots</id>
+      <url>http://www.terracotta.org/download/reflector/snapshots</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>terracotta-releases</id>
+      <url>http://www.terracotta.org/download/reflector/releases</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <distributionManagement>
+    <repository>
+      <id>terracotta-os-releases</id>
+      <name>Terracotta OS Releases Repository</name>
+      <url>${terracotta-os-releases-url}</url>
+    </repository>
+    <snapshotRepository>
+      <id>terracotta-os-snapshots</id>
+      <uniqueVersion>false</uniqueVersion>
+      <name>Terracotta OS Snapshots Repository</name>
+      <url>${terracotta-os-snapshots-url}</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.8.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>1.9.0</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <scm>
+    <connection>scm:git:git@github.com:Terracotta-OSS/management-common.git</connection>
+    <developerConnection>scm:git:https://github.com/Terracotta-OSS/management-common.git</developerConnection>
+  </scm>
+</project>
