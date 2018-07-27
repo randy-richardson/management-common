@@ -9,6 +9,7 @@ import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
+import org.glassfish.jersey.media.sse.EventOutput;
 import org.junit.Test;
 import org.terracotta.management.ServiceLocator;
 import org.terracotta.management.resource.events.EventEntityV2;
@@ -34,7 +35,9 @@ public class AllEventsResourceServiceImplV2Test {
     AllEventsResourceServiceImplV2 allEventsResourceServiceImplV2 =  new AllEventsResourceServiceImplV2();
     UriInfo uriInfo =  mock(UriInfo.class);
     when(uriInfo.getRequestUri()).thenReturn(new URI(""));
-    TerracottaEventOutput eventOutput = allEventsResourceServiceImplV2.getServerSentEvents(uriInfo, false);
+    javax.servlet.http.HttpServletRequest request = mock(javax.servlet.http.HttpServletRequest.class);
+    javax.servlet.http.HttpServletResponse response = mock(javax.servlet.http.HttpServletResponse.class);
+    TerracottaEventOutput eventOutput = allEventsResourceServiceImplV2.getServerSentEvents(uriInfo, false, request, response);
     EventServiceV2.EventListener listener = eventServiceV2.getListener();
 
     // this is the key thing here : we simulate browser closing the channel
@@ -78,7 +81,9 @@ public class AllEventsResourceServiceImplV2Test {
     AllEventsResourceServiceImplV2 allEventsResourceServiceImplV2 =  new AllEventsResourceServiceImplV2();
     UriInfo uriInfo =  mock(UriInfo.class);
     when(uriInfo.getRequestUri()).thenReturn(new URI("mockURI"));
-    TerracottaEventOutput eventOutput = allEventsResourceServiceImplV2.getServerSentEvents(uriInfo, false);
+    javax.servlet.http.HttpServletRequest request = mock(javax.servlet.http.HttpServletRequest.class);
+    javax.servlet.http.HttpServletResponse response = mock(javax.servlet.http.HttpServletResponse.class);
+    TerracottaEventOutput eventOutput = allEventsResourceServiceImplV2.getServerSentEvents(uriInfo, false, request, response);
     EventServiceV2.EventListener listener = eventServiceV2.getListener();
 
     String mockVersion = "1.0";

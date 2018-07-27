@@ -19,6 +19,7 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.security.Principal;
 
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
@@ -29,15 +30,15 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * A resource service for sending events.
  *
  * Since {@link TerracottaEventOutput} does not flushes events by itself, messages are flushed only once every
  * {@link #BATCH_SIZE} times. To prevent events lingering in the queue waiting for the {@link #BATCH_SIZE} quota to be
  * reached, a timer performs a flush every {@link #TIMER_INTERVAL} ms.
- * Finally, since Jersey does not close event outputs itself (even when the TCP connection was dropped,
- * see <a href="https://java.net/jira/browse/JERSEY-2833">JERSEY-2833</a> for details), event outputs get closed if
- * they've been idle for {@link #MAX_IDLE_KEEPALIVE} ms.
  *
  * This must be marked as @Singleton otherwise Jersey will create a new instance of this class per request,
  * creating as many timer threads.
@@ -50,12 +51,8 @@ public class AllEventsResourceServiceImplV2 {
 
   private static final Logger LOG = LoggerFactory.getLogger(AllEventsResourceServiceImplV2.class);
 
-  public static final int  BATCH_SIZE     = Integer.getInteger("TerracottaEventOutput.batch_size", 32);
-  public static final long     TIMER_INTERVAL     = Long.getLong("TerracottaEventOutput.timer_interval", 917L);
-
-  // Making the reaper timer interval a non-round number of seconds to reduce the probability that a race condition
-  // occurs causing multiple events to fire
-  public static final long     MAX_IDLE_KEEPALIVE = Long.getLong("TerracottaEventOutput.max_idle_keepalive", 57917L);
+  public static final int BATCH_SIZE = Integer.getInteger("TerracottaEventOutput.batch_size", 32);
+  public static final long TIMER_INTERVAL = Long.getLong("TerracottaEventOutput.timer_interval", 917L);
 
   private final EventServiceV2 eventService;
 
@@ -67,6 +64,7 @@ public class AllEventsResourceServiceImplV2 {
 
   public AllEventsResourceServiceImplV2() {
     this.eventService = ServiceLocator.locate(EventServiceV2.class);
+
     this.broadcaster = new Broadcaster();
     LOG.debug("sse-flush-timer being used: {}", flushTimer);
     flushTimer.schedule(new TimerTask() {
@@ -91,10 +89,6 @@ public class AllEventsResourceServiceImplV2 {
               metadata.unflushedCount.addAndGet(-unflushedCount);
             }
             continue;
-          } else if (idleTime >= MAX_IDLE_KEEPALIVE) {
-            LOG.debug("A SSE event output has been idle for too long {}, closing it", idleTime);
-            broadcaster.close(output);
-            continue;
           }
 
           LOG.debug("A SSE event output accumulated 0 event during flush interval");
@@ -106,18 +100,21 @@ public class AllEventsResourceServiceImplV2 {
 
   @GET
   @Produces(SseFeature.SERVER_SENT_EVENTS)
-  public TerracottaEventOutput getServerSentEvents(@Context UriInfo info, @QueryParam("localOnly") boolean localOnly) {
-    LOG.info("Invoking AllEventsResourceServiceImplV2.getServerSentEvents: info={}, localOnly={}", info.getRequestUri(),
-             localOnly);
+  public TerracottaEventOutput getServerSentEvents(@Context UriInfo info, @QueryParam("localOnly") boolean localOnly,
+                                                   @Context HttpServletRequest request,
+                                                   @Context HttpServletResponse response) {
+    Principal principal = request.getUserPrincipal();
+    String userName = principal != null ? principal.getName() : "tc_no_security_ctxt";
+    EventServiceListener eventOutput = new EventServiceListener(userName);
 
-    EventServiceListener eventOutput = new EventServiceListener();
+    LOG.info("Invoking AllEventsResourceServiceImplV2.getServerSentEvents: info={}, localOnly={}, user={}",
+        info.getRequestUri(), localOnly, userName);
 
     broadcaster.add(eventOutput);
     eventService.registerEventListener(eventOutput, localOnly);
 
     return eventOutput;
   }
-
 
   private class Broadcaster extends SseBroadcaster {
 
@@ -153,11 +150,19 @@ public class AllEventsResourceServiceImplV2 {
     }
   }
 
-
   public class EventServiceListener extends TerracottaEventOutput implements EventServiceV2.EventListener {
+    private final String userName;
+
+    public EventServiceListener(String userName) {
+      super();
+      this.userName = userName;
+    }
+
     @Override
     public synchronized void write(OutboundEvent chunk) throws IOException {
-      if (isClosed()) { throw new IOException("closed"); }
+      if (isClosed()) {
+        throw new IOException("closed");
+      }
 
       TerracottaEventOutputFlushingMetadata metadata = broadcaster.outputs.get(this);
       metadata.accumulatedIdleTime.set(0L);
@@ -187,14 +192,14 @@ public class AllEventsResourceServiceImplV2 {
 
       try {
         write(event);
-      } catch (IOException ioe) {
-        onError(ioe);
+      } catch (Exception e) {
+        onError(e);
       }
 
       if (LOG.isDebugEnabled()) {
         LOG.debug(String.format("Event dispatched: {AgentId: %s, Type: %s, ApiVersion: %s, Representables: %s}",
-                                eventEntity.getAgentId(), eventEntity.getType(), eventEntity.getApiVersion(),
-                                eventEntity.getRootRepresentables()));
+            eventEntity.getAgentId(), eventEntity.getType(), eventEntity.getApiVersion(),
+            eventEntity.getRootRepresentables()));
       }
     }
 
@@ -207,8 +212,16 @@ public class AllEventsResourceServiceImplV2 {
         LOG.debug("Error closing SSE event output", e);
       }
     }
-  }
 
+    @Override
+    public String getUsername() {
+      return userName;
+    }
+
+    public String toString() {
+      return getClass().getName() + "@" + Integer.toHexString(hashCode());
+    }
+  }
 
   private static class TerracottaEventOutputFlushingMetadata {
     final AtomicInteger unflushedCount = new AtomicInteger();

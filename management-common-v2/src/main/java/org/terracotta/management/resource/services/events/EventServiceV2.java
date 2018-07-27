@@ -27,6 +27,12 @@ public interface EventServiceV2 {
      * @param throwable a throwable representing the error.
      */
     void onError(Throwable throwable);
+
+    /**
+     * User name associated with this listener.
+     * @return user name
+     */
+    String getUsername();
   }
 
   /**
