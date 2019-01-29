@@ -39,6 +39,9 @@ import javax.servlet.http.HttpServletResponse;
  * Since {@link TerracottaEventOutput} does not flushes events by itself, messages are flushed only once every
  * {@link #BATCH_SIZE} times. To prevent events lingering in the queue waiting for the {@link #BATCH_SIZE} quota to be
  * reached, a timer performs a flush every {@link #TIMER_INTERVAL} ms.
+ * Finally, since Jersey does not close event outputs itself (even when the TCP connection was dropped,
+ * see JERSEY-2833 for details), event outputs get closed if they've been idle for {@link #MAX_IDLE_KEEPALIVE} ms.
+ * Note: this is NOT a bug in Jersey: event outputs have to be explicitly closed.
  *
  * This must be marked as @Singleton otherwise Jersey will create a new instance of this class per request,
  * creating as many timer threads.
@@ -53,6 +56,10 @@ public class AllEventsResourceServiceImplV2 {
 
   public static final int BATCH_SIZE = Integer.getInteger("TerracottaEventOutput.batch_size", 32);
   public static final long TIMER_INTERVAL = Long.getLong("TerracottaEventOutput.timer_interval", 917L);
+
+  // Making the reaper timer interval a non-round number of seconds to reduce the probability that a race condition
+  // occurs causing multiple events to fire
+  public static final long MAX_IDLE_KEEPALIVE = Long.getLong("TerracottaEventOutput.max_idle_keepalive", 57917L);
 
   private final EventServiceV2 eventService;
 
@@ -88,10 +95,13 @@ public class AllEventsResourceServiceImplV2 {
             } finally {
               metadata.unflushedCount.addAndGet(-unflushedCount);
             }
-            continue;
+          } else if (idleTime >= MAX_IDLE_KEEPALIVE) {
+            LOG.debug("A SSE event output has been idle for too long {}, closing it", idleTime);
+            broadcaster.close(output);
+          } else {
+            LOG.debug("A SSE event output accumulated 0 event during flush interval");
           }
 
-          LOG.debug("A SSE event output accumulated 0 event during flush interval");
         } // for
       }
 
