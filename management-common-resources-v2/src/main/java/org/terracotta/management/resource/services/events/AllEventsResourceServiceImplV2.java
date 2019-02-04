@@ -117,7 +117,7 @@ public class AllEventsResourceServiceImplV2 {
     String userName = principal != null ? principal.getName() : "tc_no_security_ctxt";
     EventServiceListener eventOutput = new EventServiceListener(userName);
 
-    LOG.info("Invoking AllEventsResourceServiceImplV2.getServerSentEvents: info={}, localOnly={}, user={}",
+    LOG.debug("Invoking AllEventsResourceServiceImplV2.getServerSentEvents: info={}, localOnly={}, user={}",
         info.getRequestUri(), localOnly, userName);
 
     broadcaster.add(eventOutput);
