@@ -10,7 +10,6 @@ import org.terracotta.management.resource.AgentEntity;
 import org.terracotta.management.resource.AgentMetadataEntity;
 import org.terracotta.management.resource.Representable;
 import org.terracotta.management.resource.exceptions.ResourceRuntimeException;
-import org.terracotta.management.resource.services.AgentService;
 import org.terracotta.management.resource.services.validator.RequestValidator;
 
 import java.util.Arrays;

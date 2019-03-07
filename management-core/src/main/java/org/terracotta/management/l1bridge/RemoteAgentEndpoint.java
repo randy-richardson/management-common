@@ -12,7 +12,7 @@ package org.terracotta.management.l1bridge;
  */
 public interface RemoteAgentEndpoint {
 
-  final static String IDENTIFIER = RemoteAgentEndpoint.class.getSimpleName();
+  String IDENTIFIER = RemoteAgentEndpoint.class.getSimpleName();
 
   /**
    * Invoke a method on the current object.
