@@ -4,12 +4,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.LogEvent;
-import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.log4j.Appender;
+import org.apache.log4j.AppenderSkeleton;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggingEvent;
 import org.glassfish.jersey.media.sse.EventOutput;
 import org.junit.Test;
 import org.terracotta.management.ServiceLocator;
@@ -51,13 +50,27 @@ public class AllEventsResourceServiceImplV2Test {
   @Test
   public void testGetServerSentEvents_loggingOnEvents() throws Exception {
 
-     List<LogEvent> logEventsList = new ArrayList<LogEvent>();
-    ListAppender listAppender = new ListAppender(logEventsList, "list-appender", null, null, true);
+    final List<LoggingEvent> logEventsList = new ArrayList<LoggingEvent>();
+    Appender appender = new AppenderSkeleton() {
+      @Override
+      protected void append(LoggingEvent loggingEvent) {
+        logEventsList.add(loggingEvent);
+      }
 
-    Logger logger = LogManager.getLogger(AllEventsResourceServiceImplV2.class);
-    LoggerContext context = LoggerContext.getContext(false);
-    context.getLogger(logger.getName()).addAppender(listAppender);
-    Configurator.setLevel(logger.getName(), Level.DEBUG);
+      @Override
+      public void close() {
+
+      }
+
+      @Override
+      public boolean requiresLayout() {
+        return false;
+      }
+    };
+
+    Logger logger = Logger.getLogger(AllEventsResourceServiceImplV2.class);
+    logger.addAppender(appender);
+    logger.setLevel(Level.DEBUG);
 
     ServiceLocator.unload();
     ServiceLocator locator = new ServiceLocator();
