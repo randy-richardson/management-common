@@ -1,22 +1,22 @@
 package org.terracotta.management.resource.services.events;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
+
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.apache.log4j.Appender;
-import org.apache.log4j.AppenderSkeleton;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.spi.LoggingEvent;
 import org.glassfish.jersey.media.sse.EventOutput;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 import org.terracotta.management.ServiceLocator;
 import org.terracotta.management.resource.events.EventEntityV2;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.core.UriInfo;
 
@@ -50,26 +50,12 @@ public class AllEventsResourceServiceImplV2Test {
   @Test
   public void testGetServerSentEvents_loggingOnEvents() throws Exception {
 
-    final List<LoggingEvent> logEventsList = new ArrayList<LoggingEvent>();
-    Appender appender = new AppenderSkeleton() {
-      @Override
-      protected void append(LoggingEvent loggingEvent) {
-        logEventsList.add(loggingEvent);
-      }
-
-      @Override
-      public void close() {
-
-      }
-
-      @Override
-      public boolean requiresLayout() {
-        return false;
-      }
-    };
-
-    Logger logger = Logger.getLogger(AllEventsResourceServiceImplV2.class);
-    logger.addAppender(appender);
+    LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+    ListAppender<ILoggingEvent> listAppender = new ListAppender();
+    listAppender.setContext(context);
+    listAppender.start();
+    Logger logger = context.getLogger(AllEventsResourceServiceImplV2.class);
+    context.getLogger(logger.getName()).addAppender(listAppender);
     logger.setLevel(Level.DEBUG);
 
     ServiceLocator.unload();
@@ -95,7 +81,7 @@ public class AllEventsResourceServiceImplV2Test {
     mockEvent.setAgentId(mockAgentId);
     listener.onEvent(mockEvent);
 
-    String event = logEventsList.get(logEventsList.size() - 1).getMessage().toString();
+    String event = listAppender.list.get(listAppender.list.size()-1).getMessage();
     assertTrue(event.contains("Event dispatched"));
     assertTrue(event.contains(mockVersion));
     assertTrue(event.contains(mockType));
