@@ -27,8 +27,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
- * An embedded implementation of {@link org.terracotta.management.resource.services.AgentsResourceService}.
- * <p/>
+ * Returns resources representing the embedded agents.
  *
  * @author brandony
  */

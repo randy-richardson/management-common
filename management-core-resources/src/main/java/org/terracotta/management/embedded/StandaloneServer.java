@@ -54,8 +54,8 @@ public final class StandaloneServer implements StandaloneServerInterface {
    * @param filterDetails a list of {@link FilterDetail} to add. Can be null;
    * @param servletListeners a list of {@link ServletContextListener} to add. Can be null.
    * @param applicationClassName the {@link javax.ws.rs.core.Application} implementation to deploy.
-   * @param host the host or IP address to bind. Mandatory unless port is < 0.
-   * @param port the port to bind. Can be < 0 to mean do not bind.
+   * @param host the host or IP address to bind. Mandatory unless port is &lt; 0.
+   * @param port the port to bind. Can be &lt; 0 to mean do not bind.
    * @param sslCtxt the {@link SSLContext} to use. Can be null if no SSL is desired.
    * @param needClientAuth true to mandate client SSL auth, false otherwise.
    */

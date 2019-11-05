@@ -19,7 +19,7 @@ import java.util.Set;
 
 /**
  * An abstract implementation of ehcache resource service {@link RequestValidator}.
- * <p/>
+ * <br>
  * {@inheritDoc}
  *
  * @author brandony
