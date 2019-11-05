@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.terracotta</groupId>
     <artifactId>management-common</artifactId>
-    <version>2.1.14-SNAPSHOT</version>
+    <version>2.2.0_JAVA11-SNAPSHOT</version>
   </parent>
 
   <artifactId>management-common-v1</artifactId>
@@ -25,10 +25,6 @@
       <artifactId>jetty-servlet</artifactId>
       <version>${jetty.version}</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
     </dependency>
   </dependencies>
 

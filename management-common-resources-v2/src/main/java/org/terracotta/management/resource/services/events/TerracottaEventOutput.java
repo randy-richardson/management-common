@@ -11,8 +11,8 @@ import java.nio.charset.Charset;
  * This class exists to overcome an defect seen in Chrome where the Jersey EventOutput uses "\n\n" as the
  * chunkDelimeter. The symptom would be a net::ERR_INVALID_CHUNKED_ENCODING on the Javascript EventSource receiving a
  * Server-Sent Event and that event would be malformed.
- * <p/>
- * Another problem this class solves is that it makes {@link #write(Object)} thread-safe: it should be but isn't in
+ * <br>
+ * Another problem this class solves is that it makes {@link #write} thread-safe: it should be but isn't in
  * ChunkedOutput. To keep performance intact despite thread-safety, messages are only flushed when specifically
  * requested. This means that {@link #flush()} must be called manually otherwise the events will never reach the client.
  *
