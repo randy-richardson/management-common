@@ -15,6 +15,7 @@
   <packaging>pom</packaging>
 
   <properties>
+    <skipSagFinder>true</skipSagFinder>
   </properties>
 
   <modules>
