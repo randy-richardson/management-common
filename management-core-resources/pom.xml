@@ -12,10 +12,8 @@
   <description>Core library for Terracotta management JAX RS resources</description>
 
   <properties>
-    <jersey.version>2.27</jersey.version>
-    <hk2.version>2.5.0-b42</hk2.version>
-    <jackson.version>2.9.9</jackson.version>
-    <jackson-databind.version>2.10.0</jackson-databind.version>
+    <jersey.version>2.29.1</jersey.version>
+    <jackson.version>2.10.0</jackson.version>
   </properties>
 
   <dependencies>
@@ -76,57 +74,6 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-      <version>2.1</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-      <version>1.1.0.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.hk2</groupId>
-      <artifactId>hk2-api</artifactId>
-      <version>${hk2.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>javax.inject</groupId>
-          <artifactId>javax.inject</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.hk2</groupId>
-      <artifactId>hk2-utils</artifactId>
-      <version>${hk2.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>javax.inject</groupId>
-          <artifactId>javax.inject</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.hk2.external</groupId>
-      <artifactId>aopalliance-repackaged</artifactId>
-      <version>${hk2.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.hk2.external</groupId>
-      <artifactId>javax.inject</artifactId>
-      <version>${hk2.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.hk2</groupId>
-      <artifactId>hk2-locator</artifactId>
-      <version>${hk2.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.glassfish.hk2</groupId>
-      <artifactId>osgi-resource-locator</artifactId>
-    </dependency>
-    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
@@ -150,18 +97,13 @@
       <version>3.18.1-GA</version>
     </dependency>
     <dependency>
-      <groupId>javax.annotation</groupId>
-      <artifactId>javax.annotation-api</artifactId>
-      <version>1.2</version>
-    </dependency>
-    <dependency>
       <groupId>org.glassfish.jaxb</groupId>
       <artifactId>jaxb-runtime</artifactId>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>${jackson-databind.version}</version>
+      <version>${jackson.version}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.jaxrs</groupId>
