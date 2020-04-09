@@ -97,6 +97,7 @@ public final class StandaloneServer implements StandaloneServerInterface {
       HttpConfiguration httpConfig = new HttpConfiguration();
       httpConfig.setSecureScheme("https");
       httpConfig.setSecurePort(port);
+      httpConfig.setBlockingTimeout(0); // make it same as idleTime (defaults to 30s.)
       ServerConnector connector;
       if (sslCtxt != null) {
         // A new HttpConfiguration object is needed for the next connector and you can pass the old one as an
