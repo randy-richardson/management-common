@@ -30,10 +30,11 @@ public class DefaultApplicationCommon {
         add(ResourceRuntimeExceptionMapper.class);
         add(WebApplicationExceptionMapper.class);
 
-        // gzip compression
-        add(GZipEncoder.class);
-        add(EncodingFilter.class);
-        add(DeflateEncoder.class);
+        if (Boolean.getBoolean("com.tc.management.jersey.compression.enabled")) {
+          add(GZipEncoder.class);
+          add(EncodingFilter.class);
+          add(DeflateEncoder.class);
+        }
       }
     };
   }
