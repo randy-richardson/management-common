@@ -150,7 +150,9 @@ public class AllEventsResourceServiceImplV2 {
 
     public void close(final ChunkedOutput<OutboundEvent> chunkedOutput) {
       try {
-        chunkedOutput.close();
+        if (!chunkedOutput.isClosed()) {
+          chunkedOutput.close();
+        }
       } catch (Exception e) {
         LOG.debug("Error closing SSE event output from timer", e);
       } finally {

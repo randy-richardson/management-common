@@ -51,10 +51,4 @@ public abstract class TerracottaEventOutput extends ChunkedOutput<OutboundEvent>
       switchOffAutoFlushing(true);
     }
   }
-
-  @Override
-  public synchronized void close() throws IOException {
-    switchOffAutoFlushing(false);
-    super.close();
-  }
 }
