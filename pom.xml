@@ -15,6 +15,7 @@
   <packaging>pom</packaging>
 
   <properties>
+    <jetty.version>9.4.28.v20200408</jetty.version>
   </properties>
 
   <modules>

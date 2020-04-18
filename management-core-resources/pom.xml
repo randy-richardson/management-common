@@ -12,8 +12,8 @@
   <description>Core library for Terracotta management JAX RS resources</description>
 
   <properties>
-    <jersey.version>2.29.1</jersey.version>
-    <jackson.version>2.10.0</jackson.version>
+    <jersey.version>2.30.1</jersey.version>
+    <jackson.version>2.10.3</jackson.version>
   </properties>
 
   <dependencies>
