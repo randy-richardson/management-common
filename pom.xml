@@ -15,7 +15,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <jetty.version>9.4.19.v20190610</jetty.version>
+    <jetty.version>9.4.28.v20200408</jetty.version>
     <slf4j.version>1.7.25</slf4j.version>
   </properties>
 
