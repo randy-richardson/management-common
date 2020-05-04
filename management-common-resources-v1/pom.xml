@@ -20,7 +20,7 @@
       <artifactId>management-core-resources</artifactId>
       <version>${project.version}</version>
     </dependency>
-        <dependency>
+    <dependency>
       <groupId>org.terracotta</groupId>
       <artifactId>management-common-v1</artifactId>
       <version>${project.version}</version>
@@ -30,10 +30,6 @@
       <artifactId>jetty-servlet</artifactId>
       <version>${jetty.version}</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
     </dependency>
   </dependencies>
 
