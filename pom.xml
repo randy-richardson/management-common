@@ -9,7 +9,7 @@
 
   <groupId>org.terracotta</groupId>
   <artifactId>management-common</artifactId>
-  <version>2.1.25.4-SNAPSHOT</version>
+  <version>2.1.25.4</version>
   <name>management-common</name>
   <description>Maven project aggregating common Terracotta management web services modules</description>
   <packaging>pom</packaging>
