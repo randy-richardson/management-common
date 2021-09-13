@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.terracotta.forge</groupId>
     <artifactId>forge-parent</artifactId>
-    <version>4.20</version>
+    <version>5.0</version>
   </parent>
 
   <groupId>org.terracotta</groupId>
@@ -15,9 +15,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <jetty.version>9.4.43.v20210629</jetty.version>
-    <jackson.version>2.11.1</jackson.version>
-    <commons-io.version>2.8.0</commons-io.version>
+    <terracotta.version>4.3.10-SNAPSHOT</terracotta.version>
   </properties>
 
   <modules>
@@ -29,11 +27,22 @@
     <module>management-common-resources-v2</module>
   </modules>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.terracotta</groupId>
+        <artifactId>thirdparty-bom-4.x</artifactId>
+        <version>${terracotta.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
