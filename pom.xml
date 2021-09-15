@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.terracotta.forge</groupId>
     <artifactId>forge-parent</artifactId>
-    <version>5.0</version>
+    <version>5.1</version>
   </parent>
 
   <groupId>org.terracotta</groupId>
@@ -72,6 +72,10 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
