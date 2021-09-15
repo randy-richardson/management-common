@@ -15,7 +15,7 @@
   <packaging>pom</packaging>
 
   <properties>
-    <terracotta.version>4.3.10-SNAPSHOT</terracotta.version>
+    <thirdparty-bom.version>4.3.10-SNAPSHOT</thirdparty-bom.version>
   </properties>
 
   <modules>
