@@ -25,6 +25,12 @@
       <artifactId>jetty-servlet</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!-- explicitly added because it's excluded in BOM for jetty-servlet -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
 </project>
