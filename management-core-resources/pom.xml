@@ -11,10 +11,6 @@
   <name>management-core-resources</name>
   <description>Core library for Terracotta management JAX RS resources</description>
 
-  <properties>
-    <jersey.version>2.31</jersey.version>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.terracotta</groupId>
