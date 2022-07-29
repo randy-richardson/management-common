@@ -20,6 +20,8 @@ import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.log.Log;
+import org.eclipse.jetty.util.log.Slf4jLog;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 import org.glassfish.jersey.servlet.ServletContainer;
@@ -88,6 +90,7 @@ public final class StandaloneServer implements StandaloneServerInterface {
     }
 
     try {
+      Log.setLog(new Slf4jLog());
       // Create a basic jetty server object without declaring the port.  Since we are configuring connectors
       // directly we'll be setting ports on those connectors.
       server = new Server();
