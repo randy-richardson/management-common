@@ -2,8 +2,8 @@
 
 package org.terracotta.management.embedded;
 
+import java.util.Collections;
 import java.util.EnumSet;
-import java.util.EventListener;
 import java.util.List;
 
 import javax.net.ssl.SSLContext;
@@ -21,7 +21,6 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-
 import org.glassfish.jersey.servlet.ServletContainer;
 
 /**
@@ -71,7 +70,6 @@ public final class StandaloneServer implements StandaloneServerInterface {
     this.needClientAuth = needClientAuth;
   }
 
-
   @Override
   public void start() throws Exception {
     if (port < 0) {
@@ -97,7 +95,6 @@ public final class StandaloneServer implements StandaloneServerInterface {
       HttpConfiguration httpConfig = new HttpConfiguration();
       httpConfig.setSecureScheme("https");
       httpConfig.setSecurePort(port);
-      httpConfig.setBlockingTimeout(0); // make it same as idleTime (defaults to 30s.)
       ServerConnector connector;
       if (sslCtxt != null) {
         // A new HttpConfiguration object is needed for the next connector and you can pass the old one as an
@@ -105,9 +102,11 @@ public final class StandaloneServer implements StandaloneServerInterface {
         // SecureRequestCustomizer which is how a new connector is able to resolve the https connection before
         // handing control over to the Jetty Server.
         HttpConfiguration httpsConfig = new HttpConfiguration(httpConfig);
-        httpsConfig.addCustomizer(new SecureRequestCustomizer());
+        SecureRequestCustomizer src = new SecureRequestCustomizer();
+        src.setSniHostCheck(false);
+        httpsConfig.addCustomizer(src);
 
-        SslContextFactory sslContextFactory = new SslContextFactory();
+        SslContextFactory.Server sslContextFactory = new SslContextFactory.Server();
         sslContextFactory.setSslContext(sslCtxt);
         sslContextFactory.setNeedClientAuth(needClientAuth);
         // HTTPS connector
@@ -128,7 +127,6 @@ public final class StandaloneServer implements StandaloneServerInterface {
       connector.setPort(port);
       server.setConnectors(new Connector[]{connector});
 
-
       ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
       context.setContextPath(EMBEDDED_CTXT);
       server.setHandler(context);
@@ -147,7 +145,7 @@ public final class StandaloneServer implements StandaloneServerInterface {
       context.addServlet(servletHolder, "/*");
 
       if (servletListeners != null) {
-        context.setEventListeners(servletListeners.toArray(new EventListener[] {}));
+        context.setEventListeners(Collections.unmodifiableList(servletListeners));
       }
 
       if (filterDetails != null) {
