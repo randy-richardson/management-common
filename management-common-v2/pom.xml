@@ -20,11 +20,6 @@
       <artifactId>management-core</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
-      <scope>provided</scope>
-    </dependency>
     <!-- explicitly added because it's excluded in BOM for jetty-servlet -->
     <dependency>
       <groupId>javax.servlet</groupId>

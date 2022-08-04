@@ -25,11 +25,6 @@
       <artifactId>management-common-v1</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-servlet</artifactId>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
 
 </project>
