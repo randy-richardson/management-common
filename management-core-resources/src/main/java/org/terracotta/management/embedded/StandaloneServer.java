@@ -95,6 +95,7 @@ public final class StandaloneServer implements StandaloneServerInterface {
       HttpConfiguration httpConfig = new HttpConfiguration();
       httpConfig.setSecureScheme("https");
       httpConfig.setSecurePort(port);
+      httpConfig.setSendServerVersion(false);
       ServerConnector connector;
       if (sslCtxt != null) {
         // A new HttpConfiguration object is needed for the next connector and you can pass the old one as an
