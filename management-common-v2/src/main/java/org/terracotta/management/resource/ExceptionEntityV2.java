@@ -8,7 +8,7 @@ import org.terracotta.management.resource.exceptions.ExceptionUtils;
 
 public class ExceptionEntityV2 extends AbstractEntityV2 {
   private String message;
-  private String stackTrace;
+  private String details;
 
   public ExceptionEntityV2() {
   }
@@ -16,7 +16,7 @@ public class ExceptionEntityV2 extends AbstractEntityV2 {
   public ExceptionEntityV2(Throwable t) {
     ErrorEntity errorEntity = ExceptionUtils.toErrorEntity(t);
     this.message = errorEntity.getError();
-    this.stackTrace = errorEntity.getStackTrace();
+    this.details = errorEntity.getDetails();
   }
 
   public String getMessage() {
@@ -27,12 +27,12 @@ public class ExceptionEntityV2 extends AbstractEntityV2 {
     this.message = message;
   }
 
-  public String getStackTrace() {
-    return stackTrace;
+  public String getDetails() {
+    return details;
   }
 
-  public void setStackTrace(String stackTrace) {
-    this.stackTrace = stackTrace;
+  public void setDetails(String details) {
+    this.details = details;
   }
 
 }
