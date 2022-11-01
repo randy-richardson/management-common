@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.terracotta</groupId>
     <artifactId>management-common</artifactId>
-    <version>2.1.35-SNAPSHOT</version>
+    <version>4.4.1.0.5</version>
   </parent>
 
   <artifactId>management-core-resources</artifactId>
