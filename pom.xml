@@ -21,8 +21,6 @@
   <modules>
     <module>management-core</module>
     <module>management-core-resources</module>
-    <module>management-common-v1</module>
-    <module>management-common-resources-v1</module>
     <module>management-common-v2</module>
     <module>management-common-resources-v2</module>
   </modules>
