@@ -2,29 +2,19 @@
 
 package org.terracotta.management.embedded;
 
-import java.util.EnumSet;
-import java.util.EventListener;
-import java.util.List;
+import org.eclipse.jetty.server.*;
+import org.eclipse.jetty.servlet.FilterHolder;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.net.ssl.SSLContext;
 import javax.servlet.DispatcherType;
 import javax.servlet.ServletContextListener;
-
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.SecureRequestCustomizer;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.log.Log;
-import org.eclipse.jetty.util.log.Slf4jLog;
-import org.eclipse.jetty.util.ssl.SslContextFactory;
-
-import org.glassfish.jersey.servlet.ServletContainer;
+import java.util.EnumSet;
+import java.util.EventListener;
+import java.util.List;
 
 /**
  * <p>A standalone server implementation for agents embedded at the Terracotta monitorable entity.</p>
@@ -90,7 +80,6 @@ public final class StandaloneServer implements StandaloneServerInterface {
     }
 
     try {
-      Log.setLog(new Slf4jLog());
       // Create a basic jetty server object without declaring the port.  Since we are configuring connectors
       // directly we'll be setting ports on those connectors.
       server = new Server();
