@@ -19,5 +19,5 @@
 
 mavenBuildOSS.legacy4x(
  maven_params: '-Ptc-publish,fullmode -Djenkins.publisher=true -Dsag-deps=true -DskipSagFinder=true',
- jdk: 11
+ jdk: 17
 )

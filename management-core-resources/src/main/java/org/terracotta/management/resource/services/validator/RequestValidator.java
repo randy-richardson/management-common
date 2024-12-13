@@ -6,7 +6,7 @@
 
 package org.terracotta.management.resource.services.validator;
 
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * A validator interface for request to REST resources.
