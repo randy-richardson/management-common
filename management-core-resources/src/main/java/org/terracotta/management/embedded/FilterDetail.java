@@ -5,7 +5,7 @@
 
 package org.terracotta.management.embedded;
 
-import javax.servlet.Filter;
+import jakarta.servlet.Filter;
 
 /**
  * @author brandony
