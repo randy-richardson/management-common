@@ -19,7 +19,7 @@ package org.terracotta.management.security.web.shiro;
 import org.apache.shiro.config.Ini;
 import org.apache.shiro.web.config.WebIniSecurityManagerFactory;
 
-import javax.servlet.Filter;
+import jakarta.servlet.Filter;
 import java.util.Map;
 
 /**
