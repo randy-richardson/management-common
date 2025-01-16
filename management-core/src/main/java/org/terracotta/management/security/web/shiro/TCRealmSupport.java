@@ -1,3 +1,8 @@
+/*
+ * Copyright Terracotta, Inc.
+ * Copyright IBM Corp. 2024, 2025
+ */
+
 package org.terracotta.management.security.web.shiro;
 
 import java.util.Arrays;
