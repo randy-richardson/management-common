@@ -8,7 +8,7 @@ package org.terracotta.management.resource;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import javax.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.GenericType;
 
 /**
  * @author Ludovic Orban

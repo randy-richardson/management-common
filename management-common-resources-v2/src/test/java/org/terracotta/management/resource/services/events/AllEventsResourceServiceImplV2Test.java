@@ -18,7 +18,7 @@ import org.terracotta.management.resource.events.EventEntityV2;
 
 import java.net.URI;
 
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.UriInfo;
 
 public class AllEventsResourceServiceImplV2Test {
 
@@ -35,8 +35,8 @@ public class AllEventsResourceServiceImplV2Test {
     AllEventsResourceServiceImplV2 allEventsResourceServiceImplV2 =  new AllEventsResourceServiceImplV2();
     UriInfo uriInfo =  mock(UriInfo.class);
     when(uriInfo.getRequestUri()).thenReturn(new URI(""));
-    javax.servlet.http.HttpServletRequest request = mock(javax.servlet.http.HttpServletRequest.class);
-    javax.servlet.http.HttpServletResponse response = mock(javax.servlet.http.HttpServletResponse.class);
+    jakarta.servlet.http.HttpServletRequest request = mock(jakarta.servlet.http.HttpServletRequest.class);
+    jakarta.servlet.http.HttpServletResponse response = mock(jakarta.servlet.http.HttpServletResponse.class);
     TerracottaEventOutput eventOutput = allEventsResourceServiceImplV2.getServerSentEvents(uriInfo, false, request, response);
     EventServiceV2.EventListener listener = eventServiceV2.getListener();
 
@@ -67,8 +67,8 @@ public class AllEventsResourceServiceImplV2Test {
     AllEventsResourceServiceImplV2 allEventsResourceServiceImplV2 =  new AllEventsResourceServiceImplV2();
     UriInfo uriInfo =  mock(UriInfo.class);
     when(uriInfo.getRequestUri()).thenReturn(new URI("mockURI"));
-    javax.servlet.http.HttpServletRequest request = mock(javax.servlet.http.HttpServletRequest.class);
-    javax.servlet.http.HttpServletResponse response = mock(javax.servlet.http.HttpServletResponse.class);
+    jakarta.servlet.http.HttpServletRequest request = mock(jakarta.servlet.http.HttpServletRequest.class);
+    jakarta.servlet.http.HttpServletResponse response = mock(jakarta.servlet.http.HttpServletResponse.class);
     TerracottaEventOutput eventOutput = allEventsResourceServiceImplV2.getServerSentEvents(uriInfo, false, request, response);
     EventServiceV2.EventListener listener = eventServiceV2.getListener();
 
