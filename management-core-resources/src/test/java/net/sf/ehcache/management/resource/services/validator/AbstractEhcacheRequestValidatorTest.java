@@ -8,8 +8,8 @@ package net.sf.ehcache.management.resource.services.validator;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.PathSegment;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.PathSegment;
+import jakarta.ws.rs.core.UriInfo;
 
 import org.junit.*;
 import static org.mockito.Mockito.*;

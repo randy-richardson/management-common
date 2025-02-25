@@ -7,8 +7,8 @@ import java.util.EnumSet;
 import java.util.List;
 
 import javax.net.ssl.SSLContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.ServletContextListener;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
@@ -17,9 +17,9 @@ import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.FilterHolder;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.glassfish.jersey.servlet.ServletContainer;
 
@@ -52,7 +52,7 @@ public final class StandaloneServer implements StandaloneServerInterface {
    * Create a standalone management server.
    * @param filterDetails a list of {@link FilterDetail} to add. Can be null;
    * @param servletListeners a list of {@link ServletContextListener} to add. Can be null.
-   * @param applicationClassName the {@link javax.ws.rs.core.Application} implementation to deploy.
+   * @param applicationClassName the {@link jakarta.ws.rs.core.Application} implementation to deploy.
    * @param host the host or IP address to bind. Mandatory unless port is &lt; 0.
    * @param port the port to bind. Can be &lt; 0 to mean do not bind.
    * @param sslCtxt the {@link SSLContext} to use. Can be null if no SSL is desired.
@@ -136,7 +136,7 @@ public final class StandaloneServer implements StandaloneServerInterface {
       // make sure com.sun.jersey.core.util.FeaturesAndProperties.FEATURE_XMLROOTELEMENT_PROCESSING is set to true
       // so that a list of @XmlRootElement(name = "configuration") is <configurations>
       servletHolder.setInitParameter("com.sun.jersey.config.feature.XmlRootElementProcessing", "true");
-      servletHolder.setInitParameter("javax.ws.rs.Application", applicationClassName);
+      servletHolder.setInitParameter("jakarta.ws.rs.Application", applicationClassName);
       // not needed anymore thanks to the jackson-jaxrs-json-provider
       // servletHolder.setInitParameter("com.sun.jersey.api.json.POJOMappingFeature", "true");
       servletHolder.setInitParameter("com.sun.jersey.spi.container.ContainerRequestFilters",

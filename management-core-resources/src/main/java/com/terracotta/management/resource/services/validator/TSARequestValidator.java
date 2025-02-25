@@ -2,9 +2,9 @@ package com.terracotta.management.resource.services.validator;
 
 import java.util.List;
 
-import javax.ws.rs.core.PathSegment;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.PathSegment;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 import org.terracotta.management.resource.Representable;
 import org.terracotta.management.resource.exceptions.ResourceRuntimeException;
