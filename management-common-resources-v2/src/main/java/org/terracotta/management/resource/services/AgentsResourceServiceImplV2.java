@@ -27,6 +27,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
+import static com.terracotta.management.resource.services.utils.UriUtils.maskQueryParams;
+
 /**
  * REST facade of agents service.
  *
@@ -57,7 +59,7 @@ public final class AgentsResourceServiceImplV2 {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public ResponseEntityV2<AgentEntityV2> getAgents(@Context UriInfo info) {
-    LOG.debug(String.format("Invoking AgentsResourceServiceImplV2.getAgents: %s", info.getRequestUri()));
+    LOG.debug(String.format("Invoking AgentsResourceServiceImplV2.getAgents: %s", maskQueryParams(info.getRequestUri())));
 
     Set<String> idSet = UriInfoUtils.extractAgentIds(info);
 
@@ -81,7 +83,7 @@ public final class AgentsResourceServiceImplV2 {
   @Path("/info")
   @Produces(MediaType.APPLICATION_JSON)
   public ResponseEntityV2<AgentMetadataEntityV2> getAgentsMetadata(@Context UriInfo info) {
-    LOG.debug(String.format("Invoking AgentsResourceServiceImplV2.getAgentsMetadata: %s", info.getRequestUri()));
+    LOG.debug(String.format("Invoking AgentsResourceServiceImplV2.getAgentsMetadata: %s", maskQueryParams(info.getRequestUri())));
 
     validator.validateSafe(info);
     Set<String> idSet = UriInfoUtils.extractAgentIds(info);
