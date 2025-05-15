@@ -33,6 +33,8 @@ import javax.ws.rs.core.UriInfo;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.terracotta.management.resource.services.utils.UriUtils.maskQueryParams;
+
 /**
  * A resource service for sending events.
  *
@@ -118,7 +120,7 @@ public class AllEventsResourceServiceImplV2 {
     EventServiceListener eventOutput = new EventServiceListener(userName);
 
     LOG.debug("Invoking AllEventsResourceServiceImplV2.getServerSentEvents: info={}, localOnly={}, user={}",
-        info.getRequestUri(), localOnly, userName);
+        maskQueryParams(info.getRequestUri()), localOnly, userName);
 
     broadcaster.add(eventOutput);
     eventService.registerEventListener(eventOutput, localOnly);
