@@ -1,6 +1,7 @@
 /*
  * All content copyright (c) 2003-2012 Terracotta, Inc., except as may otherwise be noted in a separate copyright
  * notice. All rights reserved.
+ * Copyright IBM Corp. 2024, 2025
  */
 package org.terracotta.management.resource.exceptions;
 
@@ -43,16 +44,9 @@ public class ExceptionUtils {
    */
   public static ErrorEntity toErrorEntity(Throwable t) {
     String errorMessage = "";
-    String stackTrace = null;
     if (t != null) {
       String message = t.getMessage();
       errorMessage = message == null ? "" : message.replace('\"', '\'');
-
-      StringWriter sw = new StringWriter();
-      PrintWriter pw = new PrintWriter(sw);
-      t.printStackTrace(pw);
-      pw.close();
-      stackTrace = sw.toString().replace('\"', '\'');
     }
 
     String extraErrorMessage = "";
@@ -64,7 +58,6 @@ public class ExceptionUtils {
     ErrorEntity errorEntity = new ErrorEntity();
     errorEntity.setError(errorMessage);
     errorEntity.setDetails(extraErrorMessage);
-    errorEntity.setStackTrace(stackTrace);
     return errorEntity;
   }
 

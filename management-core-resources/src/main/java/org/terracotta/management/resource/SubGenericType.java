@@ -1,13 +1,14 @@
 /*
  * All content copyright (c) 2003-2012 Terracotta, Inc., except as may otherwise be noted in a separate copyright
  * notice. All rights reserved.
+ * Copyright IBM Corp. 2024, 2025
  */
 package org.terracotta.management.resource;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-import javax.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.GenericType;
 
 /**
  * @author Ludovic Orban

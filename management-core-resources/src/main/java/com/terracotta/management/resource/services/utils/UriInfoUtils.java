@@ -1,5 +1,6 @@
 /*
- * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Terracotta, Inc.
+ * Copyright IBM Corp. 2024, 2025
  */
 package com.terracotta.management.resource.services.utils;
 
@@ -9,8 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.ws.rs.core.PathSegment;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.PathSegment;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * @author Ludovic Orban

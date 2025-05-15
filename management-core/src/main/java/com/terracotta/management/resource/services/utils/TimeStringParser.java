@@ -1,5 +1,6 @@
 /*
- * All content copyright Terracotta, Inc., unless otherwise indicated. All rights reserved.
+ * Copyright Terracotta, Inc.
+ * Copyright IBM Corp. 2024, 2025
  */
 package com.terracotta.management.resource.services.utils;
 

@@ -1,14 +1,17 @@
-/* All content copyright (c) 2003-2012 Terracotta, Inc., except as may otherwise be noted in a separate copyright notice.  All rights reserved.*/
+/*
+ * All content copyright (c) 2003-2012 Terracotta, Inc., except as may otherwise be noted in a separate copyright notice. All rights reserved.
+ * Copyright IBM Corp. 2024, 2025
+* */
 
 package org.terracotta.management.embedded;
 
+import java.util.Collections;
 import java.util.EnumSet;
-import java.util.EventListener;
 import java.util.List;
 
 import javax.net.ssl.SSLContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.ServletContextListener;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.ServletContextListener;
 
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.HttpConfiguration;
@@ -17,11 +20,10 @@ import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.FilterHolder;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-
 import org.glassfish.jersey.servlet.ServletContainer;
 
 /**
@@ -53,7 +55,7 @@ public final class StandaloneServer implements StandaloneServerInterface {
    * Create a standalone management server.
    * @param filterDetails a list of {@link FilterDetail} to add. Can be null;
    * @param servletListeners a list of {@link ServletContextListener} to add. Can be null.
-   * @param applicationClassName the {@link javax.ws.rs.core.Application} implementation to deploy.
+   * @param applicationClassName the {@link jakarta.ws.rs.core.Application} implementation to deploy.
    * @param host the host or IP address to bind. Mandatory unless port is &lt; 0.
    * @param port the port to bind. Can be &lt; 0 to mean do not bind.
    * @param sslCtxt the {@link SSLContext} to use. Can be null if no SSL is desired.
@@ -70,7 +72,6 @@ public final class StandaloneServer implements StandaloneServerInterface {
     this.sslCtxt = sslCtxt;
     this.needClientAuth = needClientAuth;
   }
-
 
   @Override
   public void start() throws Exception {
@@ -97,7 +98,7 @@ public final class StandaloneServer implements StandaloneServerInterface {
       HttpConfiguration httpConfig = new HttpConfiguration();
       httpConfig.setSecureScheme("https");
       httpConfig.setSecurePort(port);
-      httpConfig.setBlockingTimeout(0); // make it same as idleTime (defaults to 30s.)
+      httpConfig.setSendServerVersion(false);
       ServerConnector connector;
       if (sslCtxt != null) {
         // A new HttpConfiguration object is needed for the next connector and you can pass the old one as an
@@ -105,9 +106,11 @@ public final class StandaloneServer implements StandaloneServerInterface {
         // SecureRequestCustomizer which is how a new connector is able to resolve the https connection before
         // handing control over to the Jetty Server.
         HttpConfiguration httpsConfig = new HttpConfiguration(httpConfig);
-        httpsConfig.addCustomizer(new SecureRequestCustomizer());
+        SecureRequestCustomizer src = new SecureRequestCustomizer();
+        src.setSniHostCheck(false);
+        httpsConfig.addCustomizer(src);
 
-        SslContextFactory sslContextFactory = new SslContextFactory();
+        SslContextFactory.Server sslContextFactory = new SslContextFactory.Server();
         sslContextFactory.setSslContext(sslCtxt);
         sslContextFactory.setNeedClientAuth(needClientAuth);
         // HTTPS connector
@@ -128,7 +131,6 @@ public final class StandaloneServer implements StandaloneServerInterface {
       connector.setPort(port);
       server.setConnectors(new Connector[]{connector});
 
-
       ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
       context.setContextPath(EMBEDDED_CTXT);
       server.setHandler(context);
@@ -137,7 +139,7 @@ public final class StandaloneServer implements StandaloneServerInterface {
       // make sure com.sun.jersey.core.util.FeaturesAndProperties.FEATURE_XMLROOTELEMENT_PROCESSING is set to true
       // so that a list of @XmlRootElement(name = "configuration") is <configurations>
       servletHolder.setInitParameter("com.sun.jersey.config.feature.XmlRootElementProcessing", "true");
-      servletHolder.setInitParameter("javax.ws.rs.Application", applicationClassName);
+      servletHolder.setInitParameter("jakarta.ws.rs.Application", applicationClassName);
       // not needed anymore thanks to the jackson-jaxrs-json-provider
       // servletHolder.setInitParameter("com.sun.jersey.api.json.POJOMappingFeature", "true");
       servletHolder.setInitParameter("com.sun.jersey.spi.container.ContainerRequestFilters",
@@ -147,7 +149,7 @@ public final class StandaloneServer implements StandaloneServerInterface {
       context.addServlet(servletHolder, "/*");
 
       if (servletListeners != null) {
-        context.setEventListeners(servletListeners.toArray(new EventListener[] {}));
+        context.setEventListeners(Collections.unmodifiableList(servletListeners));
       }
 
       if (filterDetails != null) {

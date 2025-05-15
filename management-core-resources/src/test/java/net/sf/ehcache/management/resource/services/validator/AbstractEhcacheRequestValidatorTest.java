@@ -1,6 +1,7 @@
 /*
  * All content copyright (c) 2003-2012 Terracotta, Inc., except as may otherwise be noted in a separate copyright
  * notice. All rights reserved.
+ * Copyright IBM Corp. 2024, 2025
  */
 
 package net.sf.ehcache.management.resource.services.validator;
@@ -8,8 +9,8 @@ package net.sf.ehcache.management.resource.services.validator;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.core.PathSegment;
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.PathSegment;
+import jakarta.ws.rs.core.UriInfo;
 
 import org.junit.*;
 import static org.mockito.Mockito.*;
