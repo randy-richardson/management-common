@@ -16,7 +16,7 @@
 
 //Jenkins integration.
 
-mavenBuildOSS.legacy4x maven_params: '-Ptc-publish,fullmode -Djenkins.publisher=true -Dsag-deps=true -DskipSagFinder=true'
-
-
-
+mavenBuildOSS.legacy4x(
+ maven_params: '-Ptc-publish,fullmode -Djenkins.publisher=true -Dsag-deps=true -DskipSagFinder=true',
+ jdk: 17
+)

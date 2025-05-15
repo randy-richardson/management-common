@@ -4,25 +4,24 @@
   <parent>
     <groupId>org.terracotta.forge</groupId>
     <artifactId>forge-parent</artifactId>
-    <version>5.1</version>
+    <version>9.0</version>
   </parent>
 
   <groupId>org.terracotta</groupId>
   <artifactId>management-common</artifactId>
-  <version>2.1.30-SNAPSHOT</version>
+  <version>4.4.0-SNAPSHOT</version>
   <name>management-common</name>
   <description>Maven project aggregating common Terracotta management web services modules</description>
   <packaging>pom</packaging>
 
   <properties>
-    <thirdparty-bom.version>4.3.10-SNAPSHOT</thirdparty-bom.version>
+    <artifactory-build-name>management-common</artifactory-build-name>
+    <thirdparty-bom.version>4.4.0-SNAPSHOT</thirdparty-bom.version>
   </properties>
 
   <modules>
     <module>management-core</module>
     <module>management-core-resources</module>
-    <module>management-common-v1</module>
-    <module>management-common-resources-v1</module>
     <module>management-common-v2</module>
     <module>management-common-resources-v2</module>
   </modules>
@@ -54,11 +53,27 @@
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
+      <artifactId>mockito-inline</artifactId>
     </dependency>
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.13.0</version>
+          <configuration>
+            <source>11</source>
+            <target>11</target>
+            <fork>true</fork>
+            <meminitial>128m</meminitial>
+            <maxmem>512m</maxmem>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.terracotta</groupId>
@@ -72,10 +87,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
