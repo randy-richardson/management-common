@@ -1,22 +1,26 @@
 /*
- * All content copyright (c) 2003-2012 Terracotta, Inc., except as may otherwise be noted in a separate copyright
- * notice. All rights reserved.
+ * Copyright Terracotta, Inc.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  */
 package org.terracotta.management.resource;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.terracotta.management.resource.exceptions.ExceptionUtils;
 
 public class ExceptionEntityV2 extends AbstractEntityV2 {
   private String message;
-  private String stackTrace;
+  private String details;
+  @JsonIgnore
+  private Throwable throwable;
 
   public ExceptionEntityV2() {
   }
 
-  public ExceptionEntityV2(Throwable t) {
-    ErrorEntity errorEntity = ExceptionUtils.toErrorEntity(t);
+  public ExceptionEntityV2(Throwable throwable) {
+    ErrorEntity errorEntity = ExceptionUtils.toErrorEntity(throwable);
     this.message = errorEntity.getError();
-    this.stackTrace = errorEntity.getStackTrace();
+    this.details = errorEntity.getDetails();
+    this.throwable = throwable;
   }
 
   public String getMessage() {
@@ -27,12 +31,14 @@ public class ExceptionEntityV2 extends AbstractEntityV2 {
     this.message = message;
   }
 
-  public String getStackTrace() {
-    return stackTrace;
+  public String getDetails() {
+    return details;
   }
 
-  public void setStackTrace(String stackTrace) {
-    this.stackTrace = stackTrace;
+  public void setDetails(String details) {
+    this.details = details;
   }
+
+  public Throwable getThrowable() { return throwable; }
 
 }

@@ -29,8 +29,8 @@ public class JerseyApplicationTestCommon {
   private static final ClassFilter JERSEY_FILTER = new ClassFilter() {
     @Override
     public boolean accept(Class<?> clazz) {
-      return (clazz.isAnnotationPresent(javax.ws.rs.ext.Provider.class) ||
-              clazz.isAnnotationPresent(javax.ws.rs.Path.class));
+      return (clazz.isAnnotationPresent(jakarta.ws.rs.ext.Provider.class) ||
+              clazz.isAnnotationPresent(jakarta.ws.rs.Path.class));
     }
   };
 

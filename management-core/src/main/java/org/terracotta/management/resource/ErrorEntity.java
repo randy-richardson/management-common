@@ -1,6 +1,6 @@
 /*
- * All content copyright (c) 2003-2012 Terracotta, Inc., except as may otherwise be noted in a separate copyright
- * notice. All rights reserved.
+ * Copyright Terracotta, Inc.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  */
 
 package org.terracotta.management.resource;
@@ -14,7 +14,6 @@ import java.io.Serializable;
 public class ErrorEntity implements Serializable {
   private String error;
   private String details;
-  private String stackTrace;
 
   public ErrorEntity() {
   }
@@ -35,16 +34,8 @@ public class ErrorEntity implements Serializable {
     this.error = error;
   }
 
-  public String getStackTrace() {
-    return stackTrace;
-  }
-
-  public void setStackTrace(String stackTrace) {
-    this.stackTrace = stackTrace;
-  }
-
   public String toJSON() {
-    return String.format("{\"error\" : \"%s\" , \"details\" : \"%s\" , \"stackTrace\" : \"%s\"}", error, details, stackTrace);
+    return String.format("{\"error\" : \"%s\" , \"details\" : \"%s\"}", error, details);
   }
 
 }

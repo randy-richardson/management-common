@@ -1,6 +1,6 @@
 /*
- * All content copyright (c) 2003-2012 Terracotta, Inc., except as may otherwise be noted in a separate copyright
- * notice. All rights reserved.
+ * Copyright Terracotta, Inc.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  */
 package org.terracotta.management.application;
 
@@ -9,10 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.terracotta.management.resource.exceptions.ExceptionUtils;
 import org.terracotta.management.resource.exceptions.ResourceRuntimeException;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 
 /**
  * @author Ludovic Orban

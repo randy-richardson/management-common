@@ -1,11 +1,11 @@
 /*
- * All content copyright (c) 2003-2012 Terracotta, Inc., except as may otherwise be noted in a separate copyright
- * notice. All rights reserved.
+ * Copyright Terracotta, Inc.
+ * Copyright Super iPaaS Integration LLC, an IBM Company 2024
  */
 
 package org.terracotta.management.resource.services.validator;
 
-import javax.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.UriInfo;
 
 /**
  * A validator interface for request to REST resources.
